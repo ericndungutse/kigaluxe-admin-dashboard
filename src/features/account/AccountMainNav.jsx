@@ -1,38 +1,56 @@
 import React from 'react';
+import { BiCategoryAlt } from 'react-icons/bi';
+import { FaBlog } from 'react-icons/fa6';
+import { MdOutlineRealEstateAgent } from 'react-icons/md';
+import { TbLocationCheck } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
-import { GiDetour } from 'react-icons/gi';
-import { HiCalendarDays, HiOutlineCog6Tooth, HiOutlineUsers } from 'react-icons/hi2';
+import { FaRegClock } from 'react-icons/fa6';
+import { PiUsersBold } from 'react-icons/pi';
 
 export default function AccountMainNav() {
   return (
-    <nav className='text-gray-500 flex flex-col gap-4'>
+    <nav className='text-primary flex flex-col gap-4'>
       <NavLink
-        to='tours'
+        to='properties'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
       >
-        <GiDetour className='size-[1.5rem] text-gray-400 group-hover:text-white transition-all duration-400 aria-[current=page]:text-primary' />{' '}
-        <span className='text-base'>Tours</span>
+        <MdOutlineRealEstateAgent className='size-[1.5rem]  group-hover:text-white transition-all duration-400 aria-[current=page]:text-primary' />{' '}
+        <span className='text-base'>Properties</span>
       </NavLink>
       <NavLink
         to='bookings'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
       >
-        <HiCalendarDays className='size-[1.5rem] text-gray-400 group-hover:text-white transition-all duration-400' />{' '}
-        <span className='text-base'>Bookings</span>
+        <BiCategoryAlt className='size-[1.5rem] group-hover:text-white transition-all duration-400' />{' '}
+        <span className='text-base'>Categories</span>
       </NavLink>
       <NavLink
         to='users'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
       >
-        <HiOutlineUsers className='size-[1.5rem] text-gray-400 group-hover:text-white transition-all duration-400' />
+        <FaRegClock className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
+        <span className='text-base'>Appointments</span>
+      </NavLink>
+      <NavLink
+        to='users'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+      >
+        <PiUsersBold className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
         <span className='text-base'>Users</span>
+      </NavLink>
+      <NavLink
+        to='users'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+      >
+        <TbLocationCheck className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
+        <span className='text-base'>Locations</span>
       </NavLink>
       <NavLink
         to='settings'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
       >
-        <HiOutlineCog6Tooth className='size-[1.5rem] text-gray-400 group-hover:text-white transition-all duration-400' />
-        <span className='text-base'>Settings</span>
+        <FaBlog className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
+        <span className='text-base'>Blogs</span>
       </NavLink>
     </nav>
   );

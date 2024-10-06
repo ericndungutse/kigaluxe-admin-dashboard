@@ -10,5 +10,14 @@ import React from 'react';
  * @returns {JSX.Element} The rendered div element.
  */
 export default function ResponsiveLaout({ maxWidth, children, otherStyles }) {
-  return <div className={`w-[90%] max-w-[${maxWidth}] ${otherStyles}`}>{children}</div>;
+  return (
+    <div
+      className={`w-[90%]  ${otherStyles}`}
+      style={{
+        maxWidth: maxWidth,
+      }}
+    >
+      {children}
+    </div>
+  );
 }
