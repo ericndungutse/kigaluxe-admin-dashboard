@@ -1,0 +1,11 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.active {
+  @apply text-white bg-primary-light;
+}
+
+.active svg {
+  @apply text-white;
+}
