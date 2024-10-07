@@ -5,8 +5,6 @@ import Login from './pages/Login';
 import Properties from './pages/Properties';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>

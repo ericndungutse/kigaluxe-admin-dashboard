@@ -12,10 +12,6 @@ export default function AccountAsideBar() {
       </div>
 
       <AccountMainNav />
-
-      <footer className='mt-auto'>
-        <p className='text-sm text-center text-gray-400'>&copy; Copyright AdTours 2024 All rights reserved</p>
-      </footer>
     </aside>
   );
 }

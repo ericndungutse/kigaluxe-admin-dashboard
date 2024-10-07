@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../../components/table/Table';
 import { fetchProperties } from '../../services/properties.service';
 import Button from '../../components/Button';
+import AddProperty from './AddProperty';
+import Modal from '../../components/Modal';
 
 const fields = [
   {
@@ -41,6 +43,8 @@ export default function PropertiesList() {
     queryFn: fetchProperties,
   });
 
+  const [isOpen, setIsOpen] = useState(false);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -52,7 +56,15 @@ export default function PropertiesList() {
   return (
     <div className='flex flex-col gap-3 items-start'>
       <Table headers={fields} data={properties.paginate} />
-      <Button size='sm'>Add Property</Button>
+      {isOpen && (
+        <Modal closeModal={() => setIsOpen(false)}>
+          <h1>Add Property Modal</h1>
+        </Modal>
+      )}
+
+      <Button size='sm' onClick={() => setIsOpen(true)}>
+        Add Property
+      </Button>
     </div>
   );
 }

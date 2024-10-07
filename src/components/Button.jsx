@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Button({ children, loading, size = 'md' }) {
+export default function Button({ children, loading, size = 'md', onClick }) {
   const sizes = {
     sm: 'px-4 py-1 text-sm',
     md: 'px-6 py-2 text-base',
@@ -9,6 +9,7 @@ export default function Button({ children, loading, size = 'md' }) {
 
   return (
     <button
+      onClick={onClick || null}
       disabled={loading}
       className={`${
         sizes[size]
