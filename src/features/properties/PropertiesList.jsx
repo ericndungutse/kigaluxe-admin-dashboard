@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import Button from '../../components/Button';
+import Modal from '../../components/Modal';
 import Table from '../../components/table/Table';
 import { fetchProperties } from '../../services/properties.service';
-import Button from '../../components/Button';
-import AddProperty from './AddProperty';
-import Modal from '../../components/Modal';
+import PropertyForm from './PropertyForm';
 
 const fields = [
   {
@@ -58,7 +58,7 @@ export default function PropertiesList() {
       <Table headers={fields} data={properties.paginate} />
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
-          <h1>Add Property Modal</h1>
+          <PropertyForm closeModal={() => setIsOpen(false)} />
         </Modal>
       )}
 

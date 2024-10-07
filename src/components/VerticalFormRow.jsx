@@ -9,7 +9,7 @@
  */
 function VerticalFormRow({ label, children, error }) {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1 w-full'>
       <label htmlFor={label} className='text-sm font-semibold'>
         {label}
       </label>
