@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { HiXMark } from 'react-icons/hi2';
@@ -12,16 +12,16 @@ import toast from 'react-hot-toast';
 import Button from '../../components/Button';
 
 const PropertyForm = ({ onSubmit, closeModal }) => {
+  const queryClient = useQueryClient();
   const { isPending, mutate: addNewProperty } = useMutation({
     mutationFn: (data) => addProperty(data),
 
     onSuccess: () => {
+      queryClient.invalidateQueries('properties');
       toast.success('Property added successfully');
       closeModal();
     },
   });
-
-  console.log(isPending);
 
   // Fetch Categories
   const { data: categories, isError } = useQuery({
@@ -72,11 +72,11 @@ const PropertyForm = ({ onSubmit, closeModal }) => {
             />
           </VerticalFormRow>
 
-          {/* Property Size */}
+          {/* Property Location */}
           <VerticalFormRow label='Location' error={errors['location'] && errors['location'].message}>
             <select
               id='property_type'
-              {...register('property_type', { required: 'Property type is required' })}
+              {...register('location', { required: 'Location is required' })}
               className='border rounded-md p-1.5'
             >
               <option value=''>Select location</option>
