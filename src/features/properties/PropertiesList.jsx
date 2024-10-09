@@ -5,6 +5,8 @@ import Modal from '../../components/Modal';
 import Table from '../../components/table/Table';
 import { fetchProperties } from '../../services/properties.service';
 import PropertyForm from './PropertyForm';
+import { useSearchParams } from 'react-router-dom';
+import PropertiesDetails from './PropertiesDetails';
 
 const fields = [
   {
@@ -34,6 +36,15 @@ const fields = [
 ];
 
 export default function PropertiesList() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const closeModal = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('modal');
+    newParams.delete('resource_id');
+    setSearchParams(newParams);
+  };
+
   const {
     data: properties,
     isLoading,
@@ -55,6 +66,11 @@ export default function PropertiesList() {
 
   return (
     <div className='flex flex-col gap-3 items-start'>
+      {searchParams.get('modal') === 'details' && (
+        <Modal closeModal={closeModal}>
+          <PropertiesDetails closeModal={closeModal} />
+        </Modal>
+      )}
       <Table headers={fields} data={properties.paginate} />
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
