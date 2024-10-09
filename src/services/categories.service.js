@@ -10,3 +10,14 @@ export const getAllCategories = async () => {
     throw error;
   }
 };
+
+export const getCategoryById = async (id) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories/${id}`);
+
+    return response.data.data;
+  } catch (error) {
+    console.error(`Error fetching category with id ${id}:`, error);
+    throw error;
+  }
+};

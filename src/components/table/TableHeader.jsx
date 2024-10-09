@@ -1,8 +1,6 @@
 import React from 'react';
 
 export default function TableHeader({ headers }) {
-  console.log(headers);
-
   return (
     <thead className='text-base bg-[#f9fafb] text-primary border-t border rounded-md'>
       <tr>

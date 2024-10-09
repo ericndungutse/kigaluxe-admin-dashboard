@@ -38,8 +38,8 @@ createRoot(document.getElementById('root')).render(
             textAlign: 'center',
             maxWidth: '500px',
             padding: '16px 24px',
-            backgroundColor: 'white',
-            color: 'var(--color-grey-700)',
+            backgroundColor: '#031B28',
+            color: 'white',
             zIndex: 9999,
           },
         }}

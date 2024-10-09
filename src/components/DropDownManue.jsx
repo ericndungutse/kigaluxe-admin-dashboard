@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2';
 import useOutsideClick from '../hooks/useOutsideClick';
+import { useNavigate } from 'react-router-dom';
 
-export default function DropDownManue() {
+export default function DropDownManue({ resourceId }) {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const handleCloseMenu = () => setIsOpen(false);
   const ref = useOutsideClick(handleCloseMenu, true);
@@ -34,7 +37,10 @@ export default function DropDownManue() {
             </button>
           </li>
           <li className='group hover:bg-primary-light hover:text-white'>
-            <button className='px-6 py-3 size-full text-start  flex items-center gap-2'>
+            <button
+              className='px-6 py-3 size-full text-start  flex items-center gap-2'
+              onClick={() => navigate(`?modal=edit&resource_id=${resourceId}`)}
+            >
               <HiPencil className='size-[1rem] text-gray-400 group-hover:text-white' /> Update
             </button>
           </li>

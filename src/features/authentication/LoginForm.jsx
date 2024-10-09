@@ -15,7 +15,7 @@ function LoginForm() {
     mutationFn: ({ email, password }) => loginApi(email, password),
 
     onSuccess: (data) => {
-      queryClient.setQueryData(['user'], data.user);
+      queryClient.setQueryData(['user'], { user: data.user, token: data.token });
       navigate('/account', { replace: true });
     },
 

@@ -6,7 +6,7 @@ export default function TableRow({ data, headers }) {
     const isAction = header.key === 'action';
     const isBoolean = typeof data[header.key] === 'boolean';
     const rowContent = isAction ? (
-      <DropDownManue />
+      <DropDownManue resourceId={data.id} />
     ) : isBoolean ? (
       data[header.key] ? (
         '❌'
