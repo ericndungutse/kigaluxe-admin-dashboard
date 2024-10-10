@@ -8,15 +8,15 @@ import HorizontalFormRow from '../../components/HorizontalFormRow';
 import Input from '../../components/Input';
 import VerticalFormRow from '../../components/VerticalFormRow';
 import { getAllCategories } from '../../services/categories.service';
-import { getAllLocations } from '../../services/locations.service';
 import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
 import { useUser } from '../../hooks/useUser';
+import useFetchLocations from '../../hooks/locations.hooks';
 import { useNavigate } from 'react-router-dom';
 
 const PropertyForm = ({ closeModal, propertyId }) => {
   const navigate = useNavigate();
   const user = useUser();
-  console.log('USER', user);
+  const { isLoadingLocations, locations } = useFetchLocations();
 
   let isEdit = Boolean(propertyId);
   const queryClient = useQueryClient();
@@ -66,12 +66,6 @@ const PropertyForm = ({ closeModal, propertyId }) => {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: getAllCategories,
-  });
-
-  // FEtch Locations
-  const { data: locations } = useQuery({
-    queryKey: ['locations'],
-    queryFn: getAllLocations,
   });
 
   // Select the current property values for the property being edited
@@ -141,7 +135,8 @@ const PropertyForm = ({ closeModal, propertyId }) => {
               {...register('location', { required: 'Location is required' })}
               className='border rounded-md p-1.5'
             >
-              <option value=''>Select location</option>
+              {(isLoadingLocations && <option>Loading...</option>) || <option value=''>Select location</option>}
+
               {locations?.paginate.map((location) => {
                 return (
                   <option key={location.id} value={location.id}>

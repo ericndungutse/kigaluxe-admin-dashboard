@@ -112,7 +112,15 @@ export default function PropertiesList() {
           />
         </Modal>
       )}
+
+      {searchParams.get('modal') === 'edit' && (
+        <Modal closeModal={closeModal}>
+          <PropertyForm closeModal={closeModal} propertyId={searchParams.get('resource_id')} />
+        </Modal>
+      )}
+
       <Table headers={fields} data={properties.paginate} />
+
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
           <PropertyForm closeModal={() => setIsOpen(false)} />

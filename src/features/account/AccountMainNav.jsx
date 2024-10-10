@@ -12,42 +12,42 @@ export default function AccountMainNav() {
     <nav className='text-primary flex flex-col gap-4'>
       <NavLink
         to='properties'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <MdOutlineRealEstateAgent className='size-[1.5rem]  group-hover:text-white transition-all duration-400 aria-[current=page]:text-primary' />{' '}
         <span className='text-base'>Properties</span>
       </NavLink>
       <NavLink
         to='bookings'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <BiCategoryAlt className='size-[1.5rem] group-hover:text-white transition-all duration-400' />{' '}
         <span className='text-base'>Categories</span>
       </NavLink>
       <NavLink
         to='users'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <FaRegClock className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
         <span className='text-base'>Appointments</span>
       </NavLink>
       <NavLink
         to='users'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <PiUsersBold className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
         <span className='text-base'>Users</span>
       </NavLink>
       <NavLink
-        to='users'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        to='locations'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <TbLocationCheck className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
         <span className='text-base'>Locations</span>
       </NavLink>
       <NavLink
         to='settings'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary-light hover:text-white transition-all duration-400'
+        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <FaBlog className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
         <span className='text-base'>Blogs</span>

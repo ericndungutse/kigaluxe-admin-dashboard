@@ -1,7 +1,6 @@
 import React from 'react';
-import AccountMainNav from './AccountMainNav';
 import Logo from '../../components/Logo';
-import Heading from '../../components/Heading';
+import AccountMainNav from './AccountMainNav';
 
 export default function AccountAsideBar() {
   return (

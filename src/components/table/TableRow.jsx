@@ -2,7 +2,8 @@ import DropDownManue from '../DropDownManue';
 
 export default function TableRow({ data, headers }) {
   const td = headers.map((header, index) => {
-    const isImage = header.key === 'imageUrl';
+    const isImage = header.key === 'imageUrl' || header.key === 'url';
+
     const isAction = header.key === 'action';
     const isBoolean = typeof data[header.key] === 'boolean';
     const rowContent = isAction ? (
@@ -15,7 +16,7 @@ export default function TableRow({ data, headers }) {
       )
     ) : isImage ? (
       <div className='h-12 w-16'>
-        <img src={data[header.key][1]} className='h-full w-auto' />
+        <img src={Array.isArray(data[header.key]) ? data[header.key][1] : data[header.key]} className='h-full w-auto' />
       </div>
     ) : (
       data[header.key]

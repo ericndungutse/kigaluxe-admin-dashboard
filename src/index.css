@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .active {
-  @apply text-white bg-primary-light;
+  @apply text-white bg-primary;
 }
 
 .active svg {
