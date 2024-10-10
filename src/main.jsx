@@ -40,7 +40,7 @@ createRoot(document.getElementById('root')).render(
             padding: '16px 24px',
             backgroundColor: '#031B28',
             color: 'white',
-            zIndex: 9999,
+            zIndex: 9999999,
           },
         }}
       />

@@ -48,7 +48,10 @@ export default function DropDownManue({ resourceId }) {
             </button>
           </li>
           <li className='group hover:bg-primary-light hover:text-white'>
-            <button className='px-6 py-3 size-full text-start flex items-center gap-2'>
+            <button
+              className='px-6 py-3 size-full text-start flex items-center gap-2'
+              onClick={() => navigate(`?modal=delete&resource_id=${resourceId}`)}
+            >
               <HiTrash className='size-[1rem] text-gray-400 group-hover:text-white' />
               Delete
             </button>

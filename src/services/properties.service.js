@@ -33,15 +33,27 @@ export const addProperty = async (propertyData, token) => {
 
 export const updatePropertyApi = async (propertyData, propertyId, token) => {
   try {
-    console.log(token);
-
     const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}`, propertyData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log('response', response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
+export const deletePropertyApi = async (propertyId, token) => {
+  try {
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data);
 
     return response.data;
   } catch (error) {

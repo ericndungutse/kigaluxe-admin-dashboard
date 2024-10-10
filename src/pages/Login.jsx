@@ -1,9 +1,9 @@
 import React from 'react';
-import Logo from '../components/Logo';
-import LoginForm from '../features/authentication/LoginForm';
-import Heading from '../components/Heading';
 import CenteredLayout from '../components/CenteredLayout';
+import Heading from '../components/Heading';
+import Logo from '../components/Logo';
 import ResponsiveLaout from '../components/ResponsiveLayout';
+import LoginForm from '../features/authentication/LoginForm';
 
 function Login() {
   return (
