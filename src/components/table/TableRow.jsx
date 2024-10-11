@@ -10,9 +10,9 @@ export default function TableRow({ data, headers, dropdownOptions }) {
       <DropDownManue resourceId={data.id} dropdownOptions={dropdownOptions} />
     ) : isBoolean ? (
       data[header.key] ? (
-        '❌'
-      ) : (
         '✔'
+      ) : (
+        '❌'
       )
     ) : isImage ? (
       <div className='h-12 w-16'>

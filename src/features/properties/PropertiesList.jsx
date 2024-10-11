@@ -30,7 +30,7 @@ const fields = [
     key: 'property_type',
   },
   {
-    label: 'Available',
+    label: 'Sold',
     key: 'isSold',
   },
   {

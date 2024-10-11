@@ -1,6 +1,6 @@
 import React from 'react';
 import Heading from '../components/Heading';
-import LocationsList from '../features/locations/LocationsList';
+import LocationsList from '../features/locations/LocationList';
 
 function Locations() {
   return (

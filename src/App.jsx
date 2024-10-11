@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Properties from './pages/Properties';
 import Locations from './pages/Locations';
 import Categories from './pages/Categories';
+import Users from './pages/Users';
+import Appointments from './pages/Appointments';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path='properties' element={<Properties />} />
           <Route path='locations' element={<Locations />} />
           <Route path='categories' element={<Categories />} />
+          <Route path='users' element={<Users />} />
+          <Route path='appointments' element={<Appointments />} />
         </Route>
         <Route path='/' element={<Login />} />
       </Routes>
