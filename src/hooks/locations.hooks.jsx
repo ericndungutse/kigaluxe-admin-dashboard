@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAllLocations } from '../services/locations.service';
 
-const useFetchLocations = () => {
+const useFetchLocations = (refetch = true) => {
   const {
     isPending: isLoadingLocations,
     data: locations,
@@ -9,6 +9,7 @@ const useFetchLocations = () => {
   } = useQuery({
     queryKey: ['locations'],
     queryFn: getAllLocations,
+    enabled: refetch,
   });
 
   return { locations, isLoadingLocations, loadingLocationsError };

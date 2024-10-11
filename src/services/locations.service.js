@@ -6,7 +6,31 @@ export const getAllLocations = async () => {
 
     return response.data.data;
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    c;
     throw error;
+  }
+};
+
+export const addLocationApi = async (locationData) => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/place`, locationData);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateLocationApi = async (locationData, locationId, token) => {
+  try {
+    const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/place/${locationId}`, locationData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
   }
 };

@@ -5,6 +5,8 @@ import Button from '../../components/Button';
 import Table from '../../components/table/Table';
 import useFetchLocations from '../../hooks/locations.hooks';
 import { useUser } from '../../hooks/useUser';
+import LocationForm from './LocationForm';
+import Modal from '../../components/Modal';
 
 const fields = [
   {
@@ -88,8 +90,6 @@ export default function LocationsList() {
     return <div>Error fetching locations</div>;
   }
 
-  console.log(locations.paginate);
-
   return (
     <div className='flex flex-col gap-3 items-start'>
       {/* {searchParams.get('modal') === 'details' && (
@@ -111,12 +111,19 @@ export default function LocationsList() {
           />
         </Modal>
       )} */}
-      <Table headers={fields} data={locations.paginate} />
-      {/* {isOpen && (
-        <Modal closeModal={() => setIsOpen(false)}>
-          <PropertyForm closeModal={() => setIsOpen(false)} />
+
+      {searchParams.get('modal') === 'edit' && (
+        <Modal closeModal={closeModal}>
+          <LocationForm closeModal={closeModal} locationId={searchParams.get('resource_id')} />
         </Modal>
-      )} */}
+      )}
+
+      {isOpen && (
+        <Modal closeModal={() => setIsOpen(false)}>
+          <LocationForm closeModal={() => setIsOpen(false)} />
+        </Modal>
+      )}
+      <Table headers={fields} data={locations.paginate} />
 
       <Button size='sm' onClick={() => setIsOpen(true)}>
         Add Location
