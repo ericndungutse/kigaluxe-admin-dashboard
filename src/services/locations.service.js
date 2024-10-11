@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getAllLocations = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?limit=100`);
 
     return response.data.data;
   } catch (error) {
@@ -11,13 +11,17 @@ export const getAllLocations = async () => {
   }
 };
 
-export const addLocationApi = async (locationData) => {
+export const addLocationApi = async (locationData, token) => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/place`, locationData);
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/place`, locationData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw new Error(error.response.data.error);
   }
 };
 

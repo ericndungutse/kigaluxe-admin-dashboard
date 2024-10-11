@@ -29,7 +29,12 @@ const LocationForm = ({ closeModal, locationId }) => {
     },
 
     onError: (error) => {
-      toast.error(error.message);
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
     },
   });
 
@@ -43,7 +48,7 @@ const LocationForm = ({ closeModal, locationId }) => {
     },
 
     onError: (error) => {
-      if (error.message === 'Invalid or expired token') {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
         toast.error('Please login to continue');
         navigate('/');
       } else {
@@ -61,13 +66,7 @@ const LocationForm = ({ closeModal, locationId }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: isEdit
-      ? {
-          // Add default values for editing
-        }
-      : {},
-  });
+  } = useForm();
 
   const submitForm = (data) => {
     if (isEdit) {
