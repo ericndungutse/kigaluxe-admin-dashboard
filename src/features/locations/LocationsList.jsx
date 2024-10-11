@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -7,6 +7,9 @@ import useFetchLocations from '../../hooks/locations.hooks';
 import { useUser } from '../../hooks/useUser';
 import LocationForm from './LocationForm';
 import Modal from '../../components/Modal';
+import { deleteLocationApi } from '../../services/locations.service';
+import Prompt from '../../components/Prompt';
+import toast from 'react-hot-toast';
 
 const fields = [
   {
@@ -53,24 +56,24 @@ export default function LocationsList() {
 
   const id = searchParams.get('resource_id');
 
-  // Update Location
-  // const { isPending: isDeleting, mutate: deleteProperty } = useMutation({
-  //   mutationFn: () => deletePropertyApi(id, user?.user?.token),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries('properties');
-  //     toast.success('Property deleted successfully');
-  //     closeModal();
-  //   },
+  // Delete Location
+  const { isPending: isDeleting, mutate: deleteLocation } = useMutation({
+    mutationFn: () => deleteLocationApi(id, user?.user?.token),
+    onSuccess: () => {
+      queryClient.invalidateQueries('properties');
+      toast.success('Property deleted successfully');
+      closeModal();
+    },
 
-  //   onError: (error) => {
-  //     if (error.message === 'Invalid or expired token') {
-  //       toast.error('Please login to continue');
-  //       navigate('/');
-  //     } else {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  // });
+    onError: (error) => {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
 
   // Load Locations
   const { isLoadingLocations, locations, loadingLocationsError } = useFetchLocations();
@@ -98,19 +101,19 @@ export default function LocationsList() {
         </Modal>
       )} */}
 
-      {/* {searchParams.get('modal') === 'delete' && (
+      {searchParams.get('modal') === 'delete' && (
         <Modal closeModal={closeModal}>
           <Prompt
-            message='Are you sure you want to delete this property?'
+            message='Are you sure you want to delete this location?'
             headingText='Delete property'
             yesText='Delete'
             noText='Cancel'
             onCloseModel={closeModal}
-            onConfirm={() => deleteProperty()}
+            onConfirm={() => deleteLocation()}
             disabled={isDeleting}
           />
         </Modal>
-      )} */}
+      )}
 
       {searchParams.get('modal') === 'edit' && (
         <Modal closeModal={closeModal}>
