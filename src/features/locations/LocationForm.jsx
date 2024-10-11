@@ -139,6 +139,7 @@ const LocationForm = ({ closeModal, locationId }) => {
           <textarea
             className='border rounded-md p-2'
             id='description'
+            maxLength={99}
             placeholder='Enter description'
             defaultValue={currentLocationValues?.description || ''}
             {...register('description', { required: 'Description is required' })}

@@ -10,6 +10,7 @@ import Modal from '../../components/Modal';
 import { deleteLocationApi } from '../../services/locations.service';
 import Prompt from '../../components/Prompt';
 import toast from 'react-hot-toast';
+import LocationDetails from './LocationDetails';
 
 const fields = [
   {
@@ -95,11 +96,11 @@ export default function LocationsList() {
 
   return (
     <div className='flex flex-col gap-3 items-start'>
-      {/* {searchParams.get('modal') === 'details' && (
+      {searchParams.get('modal') === 'details' && (
         <Modal closeModal={closeModal}>
-          <PropertiesDetails closeModal={closeModal} />
+          <LocationDetails closeModal={closeModal} />
         </Modal>
-      )} */}
+      )}
 
       {searchParams.get('modal') === 'delete' && (
         <Modal closeModal={closeModal}>
