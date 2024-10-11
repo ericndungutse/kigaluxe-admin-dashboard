@@ -10,7 +10,7 @@ export const addCategoryApi = async (category) => {
   }
 };
 
-export const updateCategoryApi = async (id, category) => {
+export const updateCategoryApi = async (category, id) => {
   try {
     const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/categories/${id}`, category);
 

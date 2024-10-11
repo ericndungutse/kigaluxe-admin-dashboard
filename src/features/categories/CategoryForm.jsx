@@ -1,30 +1,30 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { HiXMark } from 'react-icons/hi2';
-import Button from '../../components/Button';
-import VerticalFormRow from '../../components/VerticalFormRow';
-import Input from '../../components/Input';
-import { useUser } from '../../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
-import { addLocationApi, updateLocationApi } from '../../services/locations.service';
-import useFetchLocations from '../../hooks/locations.hooks';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import VerticalFormRow from '../../components/VerticalFormRow';
+import { useUser } from '../../hooks/useUser';
+import { useFetchCategories } from '../../hooks/categories.hooks';
+import { addCategoryApi, updateCategoryApi } from '../../services/categories.service';
+import toast from 'react-hot-toast';
 
-const LocationForm = ({ closeModal, locationId }) => {
+const CategoryForm = ({ closeModal, categoryId }) => {
   const navigate = useNavigate();
   const user = useUser();
   const queryClient = useQueryClient();
 
-  let isEdit = Boolean(locationId);
+  let isEdit = Boolean(categoryId);
 
-  // Create Location
-  const { isPending, mutate: addNewLocation } = useMutation({
-    mutationFn: (data) => addLocationApi(data, user?.user?.token),
+  // Create Category
+  const { isPending, mutate: addNewCategory } = useMutation({
+    mutationFn: (data) => addCategoryApi(data, user?.user?.token),
 
     onSuccess: () => {
-      queryClient.invalidateQueries('locations');
-      toast.success('Location added successfully');
+      queryClient.invalidateQueries('categories');
+      toast.success('Category added successfully');
       closeModal();
     },
 
@@ -38,12 +38,12 @@ const LocationForm = ({ closeModal, locationId }) => {
     },
   });
 
-  // Update Location
-  const { isPending: isUpdating, mutate: updateLocation } = useMutation({
-    mutationFn: (data) => updateLocationApi(data, locationId, user?.user?.token),
+  // Update Category
+  const { isPending: isUpdating, mutate: updateCategory } = useMutation({
+    mutationFn: (data) => updateCategoryApi(data, categoryId),
     onSuccess: () => {
-      queryClient.invalidateQueries('locations');
-      toast.success('Location updated successfully');
+      queryClient.invalidateQueries('categories');
+      toast.success('Category updated successfully');
       closeModal();
     },
 
@@ -57,10 +57,10 @@ const LocationForm = ({ closeModal, locationId }) => {
     },
   });
 
-  // Current locations
-  const { locations } = useFetchLocations(isEdit);
+  // Current categories
+  const { categories } = useFetchCategories(isEdit);
 
-  const currentLocationValues = locations?.paginate.find((location) => location.id === +locationId);
+  const currentCategoryValues = categories?.paginate.find((category) => category.id === +categoryId);
 
   const {
     register,
@@ -70,18 +70,18 @@ const LocationForm = ({ closeModal, locationId }) => {
 
   const submitForm = (data) => {
     if (isEdit) {
-      updateLocation(data, locationId);
+      updateCategory(data, categoryId);
     } else {
-      addNewLocation(data);
+      addNewCategory(data);
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
-      className='relative mx-auto p-4 space-y-6 bg-white shadow-md rounded-lg w-[55rem]'
+      className='relative mx-auto p-4 space-y-6 bg-white shadow-md rounded-lg w-[30rem]'
     >
-      <h2 className='text-2xl font-semibold text-gray-700'>{isEdit ? 'Edit' : 'Create New'} Location</h2>
+      <h2 className='text-2xl font-semibold text-gray-700'>{isEdit ? 'Edit' : 'Create New'} Category</h2>
 
       <button
         onClick={closeModal}
@@ -91,64 +91,31 @@ const LocationForm = ({ closeModal, locationId }) => {
       </button>
 
       <div className='flex flex-col gap-4'>
-        <VerticalFormRow label='Province' error={errors['province'] && errors['province'].message}>
+        <VerticalFormRow label='Category Name' error={errors['name'] && errors['name'].message}>
           <Input
             isDisabled={isPending || isUpdating}
             type='text'
-            id='province'
-            placeholder='Enter province'
-            value={currentLocationValues?.province || ''}
-            register={register('province', { required: 'Province is required' })}
+            id='name'
+            placeholder='Enter category name'
+            value={currentCategoryValues?.name || ''}
+            register={register('name', { required: 'Category name is required' })}
           />
         </VerticalFormRow>
 
-        <VerticalFormRow label='District' error={errors['district'] && errors['district'].message}>
-          <Input
-            isDisabled={isPending || isUpdating}
-            type='text'
-            id='district'
-            placeholder='Enter district'
-            value={currentLocationValues?.district || ''}
-            register={register('district', { required: 'District is required' })}
-          />
-        </VerticalFormRow>
-
-        <VerticalFormRow label='Sector' error={errors['sector'] && errors['sector'].message}>
-          <Input
-            isDisabled={isPending || isUpdating}
-            type='text'
-            id='sector'
-            placeholder='Enter sector'
-            value={currentLocationValues?.sector || ''}
-            register={register('sector', { required: 'Sector is required' })}
-          />
-        </VerticalFormRow>
-
-        <VerticalFormRow label='Known Name' error={errors['knownName'] && errors['knownName'].message}>
-          <Input
-            isDisabled={isPending || isUpdating}
-            type='text'
-            id='knownName'
-            placeholder='Enter known name'
-            value={currentLocationValues?.knownName || ''}
-            register={register('knownName', { required: 'Known name is required' })}
-          />
-        </VerticalFormRow>
-
-        <VerticalFormRow label='Description' error={errors['description'] && errors['description'].message}>
+        <VerticalFormRow label='Details' error={errors['details'] && errors['details'].message}>
           <textarea
             className='border rounded-md p-2'
-            id='description'
-            maxLength={99}
-            placeholder='Enter description'
-            defaultValue={currentLocationValues?.description || ''}
-            {...register('description', { required: 'Description is required' })}
+            id='details'
+            maxLength={500}
+            placeholder='Enter details'
+            defaultValue={currentCategoryValues?.details || ''}
+            {...register('details', { required: 'Details are required' })}
           />
         </VerticalFormRow>
 
         <VerticalFormRow>
           <Button type='submit' loading={isPending || isUpdating}>
-            {isEdit ? 'Update' : 'Add'} Location
+            {isEdit ? 'Update' : 'Add'} Category
           </Button>
         </VerticalFormRow>
       </div>
@@ -156,4 +123,4 @@ const LocationForm = ({ closeModal, locationId }) => {
   );
 };
 
-export default LocationForm;
+export default CategoryForm;

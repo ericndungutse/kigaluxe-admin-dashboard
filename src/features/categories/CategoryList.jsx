@@ -4,14 +4,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import Table from '../../components/table/Table';
 
-import { useUser } from '../../hooks/useUser';
-import CategoryForm from './CategoryForm'; // Create this form for adding/editing categories
 import Modal from '../../components/Modal';
-import { deleteCategoryApi } from '../../services/categories.service'; // API call to delete category
 import Prompt from '../../components/Prompt';
-import toast from 'react-hot-toast';
-import CategoryDetails from './CategoryDetails'; // Create this component to show category details
 import { useFetchCategories } from '../../hooks/categories.hooks';
+import { useUser } from '../../hooks/useUser';
+import CategoryForm from './CategoryForm';
+import { deleteCategoryApi } from '../../services/categories.service';
+import toast from 'react-hot-toast';
 
 const fields = [
   {
@@ -38,23 +37,23 @@ export default function CategoriesList() {
 
   const id = searchParams.get('resource_id');
 
-  // // Delete Category
-  // const { isPending: isDeleting, mutate: deleteCategory } = useMutation({
-  //   mutationFn: () => deleteCategoryApi(id, user?.user?.token),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries('categories'); // Invalidate 'categories' query after deletion
-  //     toast.success('Category deleted successfully');
-  //     closeModal();
-  //   },
-  //   onError: (error) => {
-  //     if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
-  //       toast.error('Please login to continue');
-  //       navigate('/');
-  //     } else {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  // });
+  // Delete Category
+  const { isPending: isDeleting, mutate: deleteCategory } = useMutation({
+    mutationFn: () => deleteCategoryApi(id, user?.user?.token),
+    onSuccess: () => {
+      queryClient.invalidateQueries('categories'); // Invalidate 'categories' query after deletion
+      toast.success('Category deleted successfully');
+      closeModal();
+    },
+    onError: (error) => {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
 
   // Load Categories
   const { isLoadingCategories, categories } = useFetchCategories();
@@ -72,12 +71,6 @@ export default function CategoriesList() {
 
   return (
     <div className='flex flex-col gap-3 items-start'>
-      {searchParams.get('modal') === 'details' && (
-        <Modal closeModal={closeModal}>
-          <CategoryDetails closeModal={closeModal} />
-        </Modal>
-      )}
-
       {searchParams.get('modal') === 'delete' && (
         <Modal closeModal={closeModal}>
           <Prompt
