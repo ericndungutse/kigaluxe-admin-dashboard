@@ -16,10 +16,10 @@ function Prompt({ onConfirm, disabled, onCloseModel, headingText, message, yesTe
         <p className='mb-1 text-base'>{message}</p>
 
         <div className='flex justify-end gap-3'>
-          <Button onClick={onConfirm} variant='primary' size='md' disabled={disabled}>
+          <Button onClick={onConfirm} variant='primary' size='md' loading={disabled}>
             {yesText}
           </Button>
-          <Button onClick={onCloseModel} variant='cancel' size='md' disabled={disabled}>
+          <Button onClick={onCloseModel} variant='cancel' size='md'>
             {noText}
           </Button>
         </div>

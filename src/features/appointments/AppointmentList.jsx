@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import Prompt from '../../components/Prompt';
 import Table from '../../components/table/Table';
-import { useDeleteAppointment, useFetchAppointments } from '../../hooks/appointment.hooks';
+import { useDeleteAppointment, useEditAppointment, useFetchAppointments } from '../../hooks/appointment.hooks';
 import { useUser } from '../../hooks/useUser';
 
 const fields = [
@@ -41,17 +41,45 @@ const fields = [
 
 export default function AppointmentList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const { isDeletingAppointment, deleteAppointment } = useDeleteAppointment();
   const { isLoadingAppointments, appointments } = useFetchAppointments();
-  const id = searchParams.get('resource_id');
+  const [loadingAppointmentId, setLoadingAppointmentId] = useState(null);
+  const { editAppointment } = useEditAppointment();
 
   const handleDeleteAppointment = () => {
-    deleteAppointment(id, user?.user?.token, {
-      onSettled: () => closeModal(),
-    });
+    deleteAppointment(
+      { id: searchParams.get('resource_id'), token: user?.user?.token },
+      {
+        onSettled: () => closeModal(),
+      }
+    );
   };
+
+  const displayAppointments = appointments?.paginate.map((app) => {
+    return !app.isCompleted
+      ? {
+          ...app,
+          isCompleted: (
+            <Button
+              size='sm'
+              onClick={() => {
+                setLoadingAppointmentId(app.id);
+                editAppointment(
+                  { id: app.id, token: user?.user?.token },
+                  {
+                    onSettled: () => setLoadingAppointmentId(null),
+                  }
+                );
+              }}
+              loading={loadingAppointmentId === app.id}
+            >
+              Complete
+            </Button>
+          ),
+        }
+      : app;
+  });
 
   const closeModal = () => {
     const newParams = new URLSearchParams(searchParams);
@@ -79,24 +107,8 @@ export default function AppointmentList() {
           />
         </Modal>
       )}
-      {/* 
-      {searchParams.get('modal') === 'edit' && (
-        <Modal closeModal={closeModal}>
-          <AppointmentForm closeModal={closeModal} appointmentId={searchParams.get('resource_id')} />
-        </Modal>
-      )}
 
-      {isOpen && (
-        <Modal closeModal={() => setIsOpen(false)}>
-          <AppointmentForm closeModal={() => setIsOpen(false)} />
-        </Modal>
-      )} */}
-
-      <Table headers={fields} data={appointments?.paginate} dropdownOptions='edit,delete' />
-
-      <Button size='sm' onClick={() => setIsOpen(true)}>
-        Add Appointment
-      </Button>
+      <Table headers={fields} data={displayAppointments} dropdownOptions='delete' />
     </div>
   );
 }
