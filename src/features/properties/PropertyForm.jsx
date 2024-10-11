@@ -12,6 +12,7 @@ import { addProperty, fetchProperties, updatePropertyApi } from '../../services/
 import { useUser } from '../../hooks/useUser';
 import useFetchLocations from '../../hooks/locations.hooks';
 import { useNavigate } from 'react-router-dom';
+import { useFetchCategories } from '../../hooks/categories.hooks';
 
 const PropertyForm = ({ closeModal, propertyId }) => {
   const navigate = useNavigate();
@@ -63,10 +64,7 @@ const PropertyForm = ({ closeModal, propertyId }) => {
   });
 
   // Fetch Categories
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: getAllCategories,
-  });
+  const { categories, isLoadingCategories } = useFetchCategories();
 
   // Select the current property values for the property being edited
   const currentPropertyValues = currentProperties?.paginate.find((property) => property.id === +propertyId);
@@ -177,7 +175,8 @@ const PropertyForm = ({ closeModal, propertyId }) => {
               {...register('property_type', { required: 'Property type is required' })}
               className='border rounded-md p-1.5'
             >
-              <option value=''>Select property type</option>
+              {(isLoadingCategories && <option>Loading...</option>) || <option value=''>Select property type</option>}
+
               {categories?.paginate.map((category) => {
                 return (
                   <option key={category.id} value={category.id}>

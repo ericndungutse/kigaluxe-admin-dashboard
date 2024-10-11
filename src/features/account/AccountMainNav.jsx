@@ -18,7 +18,7 @@ export default function AccountMainNav() {
         <span className='text-base'>Properties</span>
       </NavLink>
       <NavLink
-        to='bookings'
+        to='categories'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <BiCategoryAlt className='size-[1.5rem] group-hover:text-white transition-all duration-400' />{' '}

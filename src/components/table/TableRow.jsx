@@ -1,13 +1,13 @@
 import DropDownManue from '../DropDownManue';
 
-export default function TableRow({ data, headers }) {
+export default function TableRow({ data, headers, dropdownOptions }) {
   const td = headers.map((header, index) => {
     const isImage = header.key === 'imageUrl' || header.key === 'url';
 
     const isAction = header.key === 'action';
     const isBoolean = typeof data[header.key] === 'boolean';
     const rowContent = isAction ? (
-      <DropDownManue resourceId={data.id} />
+      <DropDownManue resourceId={data.id} dropdownOptions={dropdownOptions} />
     ) : isBoolean ? (
       data[header.key] ? (
         '❌'
@@ -25,7 +25,7 @@ export default function TableRow({ data, headers }) {
     return (
       <td
         key={index}
-        className={`text-gray-500 p-0 py-2 ${index !== headers.length ? 'text-left' : 'text-right'} ${
+        className={`text-gray-500 px-6 py-2 ${index !== headers.length ? 'text-left' : 'text-right'} ${
           index + 1 === 1 ? 'font-medium' : ''
         } `}
       >

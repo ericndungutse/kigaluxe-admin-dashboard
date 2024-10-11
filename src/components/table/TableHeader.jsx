@@ -8,7 +8,7 @@ export default function TableHeader({ headers }) {
           <th
             key={index}
             scope='col'
-            className={`px-3 py-2 font-normal ${index === 0 && 'rounded-tl'} ${
+            className={`px-6 py-2 font-normal ${index === 0 && 'rounded-tl'} ${
               index === headers.length - 1 && 'rounded-tr'
             } `}
           >
