@@ -9,6 +9,7 @@ import { useFetchCategories } from '../../hooks/categories.hooks';
 import useCloseModal from '../../hooks/useCloseModal';
 import { useUser } from '../../hooks/useUser';
 import BlogDetails from './BlogDetails';
+import BlogForm from './BlogForm';
 
 const fields = [
   {
@@ -77,21 +78,18 @@ export default function BlogsList() {
           />
         </Modal>
       )}
-
-      {/* {searchParams.get('modal') === 'edit' && (
+      {searchParams.get('modal') === 'edit' && (
         <Modal closeModal={closeModal}>
-          <CategoryForm closeModal={closeModal} categoryId={searchParams.get('resource_id')} />
+          <BlogForm closeModal={closeModal} blogId={searchParams.get('resource_id')} />
         </Modal>
       )}
 
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
-          <CategoryForm closeModal={() => setIsOpen(false)} />
+          <BlogForm closeModal={() => setIsOpen(false)} />
         </Modal>
-      )} */}
-
+      )}
       <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,delete' />
-
       <Button size='sm' onClick={() => setIsOpen(true)}>
         Create Blog
       </Button>
