@@ -5,12 +5,12 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import VerticalFormRow from '../../components/VerticalFormRow';
 // import { updateBlogApi } from '../../services/blogs.service';
-import { useEditBlog, useFetchblogs } from '../../hooks/blogs.hooks';
+import { useCreateBlogApi, useEditBlog, useFetchblogs } from '../../hooks/blogs.hooks';
 import { useFetchCategories } from '../../hooks/categories.hooks';
 import { useUser } from '../../hooks/useUser';
 import useCloseModal from '../../hooks/useCloseModal';
 
-const BlogForm = ({ blogId }) => {
+const BlogForm = ({ closeCreateModal, blogId }) => {
   const user = useUser();
   const isEdit = Boolean(blogId);
   const closeModal = useCloseModal();
@@ -18,6 +18,7 @@ const BlogForm = ({ blogId }) => {
   // Fetch categories for selection
   const { categories, isLoadingCategories } = useFetchCategories();
   const { isEditingBlog, editBlog } = useEditBlog();
+  const { isCreatingBlog, createBlog } = useCreateBlogApi();
   const { blogs } = useFetchblogs();
   const currentBlog = blogs?.paginate?.find((blog) => blog.id === +blogId);
 
@@ -29,13 +30,18 @@ const BlogForm = ({ blogId }) => {
 
   const submitForm = (data) => {
     if (isEdit) {
-      editBlog({ id: blogId, ...data, token: user?.user?.token });
+      editBlog({ id: blogId, data, token: user?.user?.token });
     } else {
-      // addNewBlog({ ...data, authorId: user?.user?.id });
+      createBlog(
+        { data, token: user?.user?.token },
+        {
+          onSettled: closeCreateModal,
+        }
+      );
     }
   };
 
-  const { id, name } = categories?.paginate?.find((category) => category.id === currentBlog?.categoryId);
+  const blogCategory = categories?.paginate?.find((category) => category.id === currentBlog?.categoryId);
 
   return (
     <form
@@ -54,7 +60,7 @@ const BlogForm = ({ blogId }) => {
       {/* Blog Title */}
       <VerticalFormRow label='Title' error={errors['title'] && errors['title'].message}>
         <Input
-          isDisabled={isEditingBlog}
+          isDisabled={isEditingBlog || isCreatingBlog}
           type='text'
           id='title'
           placeholder='Enter blog title'
@@ -71,7 +77,13 @@ const BlogForm = ({ blogId }) => {
           className='border rounded-md p-1.5'
           defaultChecked={currentBlog?.categoryId}
         >
-          {(isLoadingCategories && <option>Loading...</option>) || <option value={id}>{name}</option>}
+          {isLoadingCategories ? (
+            <option>Loading...</option>
+          ) : blogCategory ? (
+            <option value={blogCategory?.id}>{blogCategory?.name}</option>
+          ) : (
+            <option value=''>Select category</option>
+          )}
 
           {categories?.paginate.map((category) => (
             <option key={category.id} value={category.id}>
@@ -94,7 +106,7 @@ const BlogForm = ({ blogId }) => {
 
       {/* Submit Button */}
       <VerticalFormRow>
-        <Button type='submit' loading={isEdit && isEditingBlog}>
+        <Button type='submit' loading={(isEdit && isEditingBlog) || isCreatingBlog}>
           {isEdit ? 'Update Blog' : 'Add Blog'}
         </Button>
       </VerticalFormRow>

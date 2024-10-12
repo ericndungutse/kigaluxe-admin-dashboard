@@ -86,7 +86,7 @@ export default function BlogsList() {
 
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
-          <BlogForm closeModal={() => setIsOpen(false)} />
+          <BlogForm closeCreateModal={() => setIsOpen(false)} />
         </Modal>
       )}
       <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,delete' />

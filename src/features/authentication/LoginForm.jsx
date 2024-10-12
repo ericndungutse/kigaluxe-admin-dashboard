@@ -29,8 +29,6 @@ function LoginForm() {
   } = useForm();
 
   function onSubmit(data) {
-    console.log(isPending);
-
     setErrorMessage('');
     login(data);
   }

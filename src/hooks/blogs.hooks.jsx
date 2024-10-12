@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteBlogApi, getAllBlogsApi, updateBlogApi } from '../services/blogs.service';
+import { createBlogApi, deleteBlogApi, getAllBlogsApi, updateBlogApi } from '../services/blogs.service';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useCloseModal from './useCloseModal';
@@ -39,6 +39,33 @@ export const useEditBlog = () => {
   });
 
   return { isEditingBlog, editBlog };
+};
+
+export const useCreateBlogApi = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  // Delete Appointment
+  const { isPending: isCreatingBlog, mutate: createBlog } = useMutation({
+    mutationFn: async ({ data, token }) => {
+      await createBlogApi(data, token);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs');
+
+      toast.success('Blog created successfully');
+    },
+    onError: (error) => {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+
+  return { isCreatingBlog, createBlog };
 };
 
 export const useDeleteBlog = () => {
