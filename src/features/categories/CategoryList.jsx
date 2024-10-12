@@ -11,6 +11,7 @@ import { useUser } from '../../hooks/useUser';
 import CategoryForm from './CategoryForm';
 import { deleteCategoryApi } from '../../services/categories.service';
 import toast from 'react-hot-toast';
+import useCloseModal from '../../hooks/useCloseModal';
 
 const fields = [
   {
@@ -32,9 +33,8 @@ export default function CategoriesList() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const navigate = useNavigate();
-
+  const closeModal = useCloseModal();
   const queryClient = useQueryClient();
-
   const id = searchParams.get('resource_id');
 
   // Delete Category
@@ -57,13 +57,6 @@ export default function CategoriesList() {
 
   // Load Categories
   const { isLoadingCategories, categories } = useFetchCategories();
-
-  const closeModal = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('modal');
-    newParams.delete('resource_id');
-    setSearchParams(newParams);
-  };
 
   if (isLoadingCategories) {
     return <div>Loading...</div>;

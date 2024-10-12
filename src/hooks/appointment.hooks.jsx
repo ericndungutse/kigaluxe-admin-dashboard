@@ -15,7 +15,6 @@ export const useFetchAppointments = () => {
 export const useDeleteAppointment = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  // Delete Appointment
   const { isPending: isDeletingAppointment, mutate: deleteAppointment } = useMutation({
     mutationFn: async ({ id, token }) => {
       await deleteAppointmentApi(id, token);

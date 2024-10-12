@@ -6,6 +6,7 @@ import Prompt from '../../components/Prompt';
 import Table from '../../components/table/Table';
 import { useDeleteAppointment, useEditAppointment, useFetchAppointments } from '../../hooks/appointment.hooks';
 import { useUser } from '../../hooks/useUser';
+import useCloseModal from '../../hooks/useCloseModal';
 
 const fields = [
   {
@@ -46,6 +47,7 @@ export default function AppointmentList() {
   const { isLoadingAppointments, appointments } = useFetchAppointments();
   const [loadingAppointmentId, setLoadingAppointmentId] = useState(null);
   const { editAppointment } = useEditAppointment();
+  const closeModal = useCloseModal();
 
   const handleDeleteAppointment = () => {
     deleteAppointment(
@@ -80,13 +82,6 @@ export default function AppointmentList() {
         }
       : app;
   });
-
-  const closeModal = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('modal');
-    newParams.delete('resource_id');
-    setSearchParams(newParams);
-  };
 
   if (isLoadingAppointments) {
     return <div>Loading...</div>;

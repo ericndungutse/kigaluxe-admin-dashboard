@@ -83,6 +83,7 @@ export default function PropertiesList() {
     newParams.delete('resource_id');
     setSearchParams(newParams);
   };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
