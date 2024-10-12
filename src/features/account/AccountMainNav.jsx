@@ -46,7 +46,7 @@ export default function AccountMainNav() {
         <span className='text-base'>Locations</span>
       </NavLink>
       <NavLink
-        to='settings'
+        to='blogs'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
       >
         <FaBlog className='size-[1.5rem] group-hover:text-white transition-all duration-400' />

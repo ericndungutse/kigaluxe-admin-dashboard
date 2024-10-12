@@ -6,6 +6,7 @@ import Locations from './pages/Locations';
 import Categories from './pages/Categories';
 import Users from './pages/Users';
 import Appointments from './pages/Appointments';
+import Blogs from './pages/blogs';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='categories' element={<Categories />} />
           <Route path='users' element={<Users />} />
           <Route path='appointments' element={<Appointments />} />
+          <Route path='blogs' element={<Blogs />} />
         </Route>
         <Route path='/' element={<Login />} />
       </Routes>
