@@ -14,7 +14,7 @@ const BlogForm = ({ closeModal, blogId }) => {
   const isEdit = Boolean(blogId);
 
   // Fetch categories for selection
-  const { categories, isLoadingCategories } = useFetchCategories();
+  const { categories, isLoadingCategories } = useFetchCategories(1);
   const { isEditingBlog, editBlog } = useEditBlog();
   const { isCreatingBlog, createBlog } = useCreateBlogApi();
   const { blogs } = useFetchblogs();

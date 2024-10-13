@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MdOutlineImage } from 'react-icons/md';
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2';
 import useOutsideClick from '../hooks/useOutsideClick';
-import { useNavigate } from 'react-router-dom';
 
 export default function DropDownManue({ resourceId, dropdownOptions }) {
   const navigate = useNavigate();
@@ -49,6 +50,18 @@ export default function DropDownManue({ resourceId, dropdownOptions }) {
                 onClick={() => navigate(`?modal=edit&resource_id=${resourceId}`)}
               >
                 <HiPencil className='size-[1rem] text-gray-400 group-hover:text-white' /> Edit
+              </button>
+            </li>
+          )}
+
+          {dropdownOptions.split(',').splice(',').includes('update image') && (
+            <li className='group hover:bg-primary-light hover:text-white'>
+              <button
+                className='px-6 py-3 size-full text-start flex items-center gap-2'
+                onClick={() => navigate(`?modal=update-images&resource_id=${resourceId}`)}
+              >
+                <MdOutlineImage className='size-[1rem] text-gray-400 group-hover:text-white' />
+                Update Image
               </button>
             </li>
           )}

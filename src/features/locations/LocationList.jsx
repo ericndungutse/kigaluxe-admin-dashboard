@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import LocationDetails from './LocationDetails';
 import Pagination from '../../components/Pagination';
 import useCloseModal from '../../hooks/useCloseModal';
+import ImageUploader from '../../components/ImageUploader';
 
 const fields = [
   {
@@ -123,7 +124,13 @@ export default function LocationsList() {
           <LocationForm closeModal={() => setIsOpen(false)} />
         </Modal>
       )}
-      <Table headers={fields} data={locations.paginate} />
+
+      {searchParams.get('modal') === 'update-images' && (
+        <Modal closeModal={closeModal}>
+          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} multiple={false} />
+        </Modal>
+      )}
+      <Table headers={fields} data={locations.paginate} dropdownOptions='details,edit,update image,delete' />
 
       <div className='flex justify-between w-full'>
         <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>

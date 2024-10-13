@@ -16,7 +16,7 @@ import { addProperty, fetchProperties, updatePropertyApi } from '../../services/
 const PropertyForm = ({ closeModal, propertyId }) => {
   const navigate = useNavigate();
   const user = useUser();
-  const { isLoadingLocations, locations } = useFetchLocations();
+  const { isLoadingLocations, locations } = useFetchLocations(1);
 
   let isEdit = Boolean(propertyId);
   const queryClient = useQueryClient();
@@ -38,7 +38,12 @@ const PropertyForm = ({ closeModal, propertyId }) => {
     },
 
     onError: (error) => {
-      toast.error(error.message);
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
     },
   });
 
@@ -62,7 +67,7 @@ const PropertyForm = ({ closeModal, propertyId }) => {
   });
 
   // Fetch Categories
-  const { categories, isLoadingCategories } = useFetchCategories();
+  const { categories, isLoadingCategories } = useFetchCategories(1);
 
   // Select the current property values for the property being edited
   const currentPropertyValues = currentProperties?.paginate.find((property) => property.id === +propertyId);
@@ -71,19 +76,7 @@ const PropertyForm = ({ closeModal, propertyId }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: isEdit
-      ? {
-          isForRent: currentPropertyValues?.isForRent,
-          isForSale: currentPropertyValues?.isForSale,
-          isSold: currentPropertyValues?.isSold,
-          isLand: currentPropertyValues?.isLand,
-          hasPool: currentPropertyValues?.hasPool,
-          AC: currentPropertyValues?.AC,
-          hasParking: currentPropertyValues?.hasParking,
-        }
-      : {},
-  });
+  } = useForm();
 
   const submitForm = (data) => {
     if (isEdit) {

@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import { useUser } from '../../hooks/useUser';
 import Pagination from '../../components/Pagination';
 import useCloseModal from '../../hooks/useCloseModal';
+import ImageUploader from '../../components/ImageUploader';
 
 const fields = [
   {
@@ -116,7 +117,13 @@ export default function PropertiesList() {
         </Modal>
       )}
 
-      <Table headers={fields} data={properties?.paginate} />
+      {searchParams.get('modal') === 'update-images' && (
+        <Modal closeModal={closeModal}>
+          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} />
+        </Modal>
+      )}
+
+      <Table headers={fields} data={properties?.paginate} dropdownOptions='details,edit,update image,delete' />
       <div className='flex justify-between w-full'>
         <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
           Add Property

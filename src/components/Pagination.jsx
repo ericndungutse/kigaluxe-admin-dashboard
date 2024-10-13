@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import Button from './Button';
+import { useSearchParams } from 'react-router-dom';
 
 const Pagination = ({ currentPage, next, totalPages }) => {
   const [searchParams, setSearchParams] = useSearchParams();

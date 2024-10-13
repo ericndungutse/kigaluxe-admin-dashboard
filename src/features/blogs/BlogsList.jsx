@@ -11,6 +11,7 @@ import { useUser } from '../../hooks/useUser';
 import BlogDetails from './BlogDetails';
 import BlogForm from './BlogForm';
 import Pagination from '../../components/Pagination';
+import ImageUploader from '../../components/ImageUploader';
 
 const fields = [
   {
@@ -90,7 +91,14 @@ export default function BlogsList() {
           <BlogForm closeModal={() => setIsOpen(false)} />
         </Modal>
       )}
-      <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,delete' />
+
+      {searchParams.get('modal') === 'update-images' && (
+        <Modal closeModal={closeModal}>
+          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} multiple={false} />
+        </Modal>
+      )}
+
+      <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,update image,delete' />
       <div className='flex justify-between w-full'>
         <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
           Create Blog

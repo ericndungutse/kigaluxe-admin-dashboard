@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllLocations } from '../services/locations.service';
 import { useSearchParams } from 'react-router-dom';
 
-const useFetchLocations = (refetch = true) => {
+const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
+  const page = pageToFetch || searchParams.get('page') || 1;
   const {
     isPending: isLoadingLocations,
     data: locations,
