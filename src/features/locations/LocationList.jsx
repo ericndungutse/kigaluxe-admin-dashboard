@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import Table from '../../components/table/Table';
-import useFetchLocations from '../../hooks/locations.hooks';
-import { useUser } from '../../hooks/useUser';
+import useFetchLocations, { useUploadLocationImage } from '../../hooks/locations.hooks';
 import LocationForm from './LocationForm';
 import Modal from '../../components/Modal';
 import { deleteLocationApi } from '../../services/locations.service';
@@ -14,6 +13,7 @@ import LocationDetails from './LocationDetails';
 import Pagination from '../../components/Pagination';
 import useCloseModal from '../../hooks/useCloseModal';
 import ImageUploader from '../../components/ImageUploader';
+import { useUser } from '../../hooks/useUser';
 
 const fields = [
   {
@@ -56,6 +56,7 @@ export default function LocationsList() {
   const user = useUser();
   const navigate = useNavigate();
   const closeModal = useCloseModal();
+  const { isUploadingLocationimages, uploadLocationImage } = useUploadLocationImage();
 
   const queryClient = useQueryClient();
 
@@ -127,9 +128,16 @@ export default function LocationsList() {
 
       {searchParams.get('modal') === 'update-images' && (
         <Modal closeModal={closeModal}>
-          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} multiple={false} />
+          <ImageUploader
+            closeModal={closeModal}
+            resourceId={searchParams.get('resource_id')}
+            onSubmit={uploadLocationImage}
+            uploading={isUploadingLocationimages}
+            multiple={false}
+          />
         </Modal>
       )}
+
       <Table headers={fields} data={locations.paginate} dropdownOptions='details,edit,update image,delete' />
 
       <div className='flex justify-between w-full'>

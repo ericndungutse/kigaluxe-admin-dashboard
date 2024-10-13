@@ -14,7 +14,7 @@ import { useUser } from '../../hooks/useUser';
 import Pagination from '../../components/Pagination';
 import useCloseModal from '../../hooks/useCloseModal';
 import ImageUploader from '../../components/ImageUploader';
-import { useFetchProperties } from '../../hooks/properties.hooks';
+import { useFetchProperties, useUploadPropertyImages } from '../../hooks/properties.hooks';
 
 const fields = [
   {
@@ -33,6 +33,7 @@ const fields = [
     label: 'Property Type',
     key: 'property_type',
   },
+
   {
     label: 'Sold',
     key: 'isSold',
@@ -50,6 +51,8 @@ export default function PropertiesList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const closeModal = useCloseModal();
+
+  const { isUploadingPropertyimages, uploadPropertyImages } = useUploadPropertyImages();
 
   const id = searchParams.get('resource_id');
 
@@ -112,7 +115,12 @@ export default function PropertiesList() {
 
       {searchParams.get('modal') === 'update-images' && (
         <Modal closeModal={closeModal}>
-          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} />
+          <ImageUploader
+            closeModal={closeModal}
+            resourceId={searchParams.get('resource_id')}
+            onSubmit={uploadPropertyImages}
+            uploading={isUploadingPropertyimages}
+          />
         </Modal>
       )}
 

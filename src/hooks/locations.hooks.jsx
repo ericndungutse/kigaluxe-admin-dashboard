@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllLocations } from '../services/locations.service';
-import { useSearchParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getAllLocations, uploadLocationImageApi } from '../services/locations.service';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useUser } from './useUser';
 
 const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
@@ -16,6 +17,37 @@ const useFetchLocations = (pageToFetch, refetch = true) => {
   });
 
   return { locations, isLoadingLocations, loadingLocationsError };
+};
+
+export const useUploadLocationImage = () => {
+  const [searchParams] = useSearchParams();
+  const user = useUser();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const invalidateQuery = !searchParams.get('page') ? 'locations' : ['locations', searchParams.get('page')];
+
+  const { isPending: isUploadingLocationimages, mutate: uploadLocationImage } = useMutation({
+    mutationFn: async (formData) => {
+      await uploadLocationImageApi(searchParams.get('resource_id'), formData, user?.user?.token);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(invalidateQuery);
+      toast.success('Location image uploaded successfully');
+    },
+
+    onError: (error) => {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+
+  return { isUploadingLocationimages, uploadLocationImage };
 };
 
 export default useFetchLocations;

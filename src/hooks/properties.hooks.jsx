@@ -1,6 +1,8 @@
-import { useSearchParams } from 'react-router-dom';
-import { fetchProperties } from '../services/properties.service';
-import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { fetchProperties, uploadPropertyImageApi } from '../services/properties.service';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useUser } from './useUser';
+import toast from 'react-hot-toast';
 
 export const useFetchProperties = (pageToFetch) => {
   const [searchParams] = useSearchParams();
@@ -16,4 +18,35 @@ export const useFetchProperties = (pageToFetch) => {
   });
 
   return { properties, isLoadingProperties, isError };
+};
+
+export const useUploadPropertyImages = () => {
+  const [searchParams] = useSearchParams();
+  const user = useUser();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const invalidateQuery = !searchParams.get('page') ? 'properties' : ['properties', searchParams.get('page')];
+
+  const { isPending: isUploadingPropertyimages, mutate: uploadPropertyImages } = useMutation({
+    mutationFn: async (formData) => {
+      await uploadPropertyImageApi(searchParams.get('resource_id'), formData, user?.user?.token);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(invalidateQuery);
+      toast.success('Images uploaded successfully');
+    },
+
+    onError: (error) => {
+      if (error.message === 'Invalid or expired token' || error.message === 'Access token is missing or invalid') {
+        toast.error('Please login to continue');
+        navigate('/');
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+
+  return { isUploadingPropertyimages, uploadPropertyImages };
 };

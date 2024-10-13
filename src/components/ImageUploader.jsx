@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import Button from './Button';
 import { HiXMark } from 'react-icons/hi2';
+import Button from './Button';
 
-const ImageUploader = ({ closeModal, resourceId, multiple = true }) => {
+const ImageUploader = ({ closeModal, multiple = true, onSubmit, uploading }) => {
   const [selectedFiles, setSelectedFiles] = useState(null);
-  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -27,24 +25,7 @@ const ImageUploader = ({ closeModal, resourceId, multiple = true }) => {
       formData.append(`avatar`, selectedFiles[i]);
     }
 
-    setUploading(true);
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/properties/img/${resourceId}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      setSuccessMessage(response.data.message);
-    } catch (err) {
-      setError(err.response?.data?.error || 'Error uploading images');
-    } finally {
-      setUploading(false);
-    }
+    onSubmit(formData);
   };
 
   return (

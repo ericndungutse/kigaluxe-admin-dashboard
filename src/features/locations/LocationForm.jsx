@@ -58,7 +58,7 @@ const LocationForm = ({ closeModal, locationId }) => {
   });
 
   // Current locations
-  const { locations } = useFetchLocations(isEdit);
+  const { locations } = useFetchLocations();
 
   const currentLocationValues = locations?.paginate.find((location) => location.id === +locationId);
 

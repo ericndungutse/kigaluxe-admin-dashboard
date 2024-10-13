@@ -16,7 +16,7 @@ export default function TableRow({ data, headers, dropdownOptions }) {
       )
     ) : isImage ? (
       <div className='h-12 w-16'>
-        <img src={Array.isArray(data[header.key]) ? data[header.key][1] : data[header.key]} className='h-full w-auto' />
+        <img src={Array.isArray(data[header.key]) ? data[header.key][0] : data[header.key]} className='h-full w-auto' />
       </div>
     ) : (
       data[header.key]

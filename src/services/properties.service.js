@@ -58,3 +58,22 @@ export const deletePropertyApi = async (propertyId, token) => {
     throw new Error(error.response.data.error);
   }
 };
+
+export const uploadPropertyImageApi = async (propertyId, formData, token) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/properties/img/${propertyId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};

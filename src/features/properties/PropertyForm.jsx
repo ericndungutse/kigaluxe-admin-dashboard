@@ -86,10 +86,6 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
     }
   };
 
-  console.log(propertyId);
-
-  console.log('Track' + currentProperties, currentPropertyValues);
-
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
