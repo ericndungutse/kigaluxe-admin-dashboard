@@ -15,7 +15,8 @@ const CategoryForm = ({ closeModal, categoryId }) => {
   const navigate = useNavigate();
   const user = useUser();
   const queryClient = useQueryClient();
-
+  // Current categories
+  const { categories } = useFetchCategories(1);
   let isEdit = Boolean(categoryId);
 
   // Create Category
@@ -56,9 +57,6 @@ const CategoryForm = ({ closeModal, categoryId }) => {
       }
     },
   });
-
-  // Current categories
-  const { categories } = useFetchCategories(isEdit);
 
   const currentCategoryValues = categories?.paginate.find((category) => category.id === +categoryId);
 

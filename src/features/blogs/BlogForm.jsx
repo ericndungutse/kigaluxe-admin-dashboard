@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form'; // Import Controller
 import { HiXMark } from 'react-icons/hi2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -8,6 +8,7 @@ import VerticalFormRow from '../../components/VerticalFormRow';
 import { useCreateBlogApi, useEditBlog, useFetchblogs } from '../../hooks/blogs.hooks';
 import { useFetchCategories } from '../../hooks/categories.hooks';
 import { useUser } from '../../hooks/useUser';
+import Editor from '../../components/Editor';
 
 const BlogForm = ({ closeModal, blogId }) => {
   const user = useUser();
@@ -23,6 +24,7 @@ const BlogForm = ({ closeModal, blogId }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -91,14 +93,14 @@ const BlogForm = ({ closeModal, blogId }) => {
         </select>
       </VerticalFormRow>
 
-      {/* Blog Content */}
+      {/* Blog Content (CKEditor Integration) */}
       <VerticalFormRow label='Content' error={errors['content'] && errors['content'].message}>
-        <textarea
-          className='border rounded-md p-2'
-          id='content'
-          defaultValue={currentBlog?.content}
-          placeholder='Enter blog content'
-          {...register('content', { required: 'Content is required' })}
+        <Controller
+          name='content'
+          control={control}
+          defaultValue={currentBlog?.content || ''}
+          rules={{ required: 'Content is required' }}
+          render={({ field: { onChange, value } }) => <Editor onChange={onChange} value={value} />}
         />
       </VerticalFormRow>
 

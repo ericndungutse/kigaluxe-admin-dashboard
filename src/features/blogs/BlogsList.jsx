@@ -35,7 +35,7 @@ export default function BlogsList() {
   const id = searchParams.get('resource_id');
   const closeModal = useCloseModal();
 
-  const { isLoadingCategories, categories } = useFetchCategories();
+  const { isLoadingCategories, categories } = useFetchCategories(1);
   const { isLoadingblogs, blogs } = useFetchblogs();
   const { isDeletingBlog, deleteBlog } = useDeleteBlog();
 
@@ -59,6 +59,8 @@ export default function BlogsList() {
       categoryId: category?.name,
     };
   });
+
+  console.log(categories);
 
   return (
     <div className='flex flex-col gap-3 items-start'>

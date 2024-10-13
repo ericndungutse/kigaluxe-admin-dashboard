@@ -16,7 +16,7 @@ export default function BlogDetails({ closeModal }) {
 
   const blog = {
     ...blogDetails,
-    categoryId: categories?.paginate?.find((category) => category.id === blogDetails?.categoryId).name,
+    categoryId: categories?.paginate?.find((category) => category.id === blogDetails?.categoryId)?.name,
   };
 
   if (!blogDetails) {
@@ -53,9 +53,14 @@ export default function BlogDetails({ closeModal }) {
       <h2 className='text-3xl font-bold text-primary mb-6'>{blog.title}</h2>
 
       {/* Blog Content with TextExtender */}
-      <div className='mb-6'>
+      {/* <div className='mb-6'>
         <TextExtender text={blog.content} maxLength={150} />
-      </div>
+      </div> */}
+
+      <div
+        className='mb-6'
+        dangerouslySetInnerHTML={{ __html: blog.content }} // Renders HTML content
+      />
 
       {/* Blog Details */}
       <div className='mb-6'>
