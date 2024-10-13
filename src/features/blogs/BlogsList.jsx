@@ -10,6 +10,7 @@ import useCloseModal from '../../hooks/useCloseModal';
 import { useUser } from '../../hooks/useUser';
 import BlogDetails from './BlogDetails';
 import BlogForm from './BlogForm';
+import Pagination from '../../components/Pagination';
 
 const fields = [
   {
@@ -27,7 +28,7 @@ const fields = [
 ];
 
 export default function BlogsList() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const id = searchParams.get('resource_id');
@@ -86,13 +87,16 @@ export default function BlogsList() {
 
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
-          <BlogForm closeCreateModal={() => setIsOpen(false)} />
+          <BlogForm closeModal={() => setIsOpen(false)} />
         </Modal>
       )}
       <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,delete' />
-      <Button size='sm' onClick={() => setIsOpen(true)}>
-        Create Blog
-      </Button>
+      <div className='flex justify-between w-full'>
+        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+          Create Blog
+        </Button>
+        <Pagination currentPage={blogs?.currentPage} totalPages={blogs?.totalPages} next={blogs?.next} />
+      </div>
     </div>
   );
 }

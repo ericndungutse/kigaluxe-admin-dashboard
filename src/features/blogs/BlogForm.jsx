@@ -8,12 +8,10 @@ import VerticalFormRow from '../../components/VerticalFormRow';
 import { useCreateBlogApi, useEditBlog, useFetchblogs } from '../../hooks/blogs.hooks';
 import { useFetchCategories } from '../../hooks/categories.hooks';
 import { useUser } from '../../hooks/useUser';
-import useCloseModal from '../../hooks/useCloseModal';
 
-const BlogForm = ({ closeCreateModal, blogId }) => {
+const BlogForm = ({ closeModal, blogId }) => {
   const user = useUser();
   const isEdit = Boolean(blogId);
-  const closeModal = useCloseModal();
 
   // Fetch categories for selection
   const { categories, isLoadingCategories } = useFetchCategories();
@@ -35,7 +33,7 @@ const BlogForm = ({ closeCreateModal, blogId }) => {
       createBlog(
         { data, token: user?.user?.token },
         {
-          onSettled: closeCreateModal,
+          onSettled: closeModal,
         }
       );
     }
@@ -52,7 +50,7 @@ const BlogForm = ({ closeCreateModal, blogId }) => {
 
       <button
         onClick={closeModal}
-        className='bg-none border-none p-1 rounded-sm translate-x-2 transition-all duration-200 absolute top-1 text-gray-500 right-[1.9rem]'
+        className='bg-none border-none p-1 rounded-sm translate-x-2 text-3xl transition-all duration-200 absolute top-2 text-gray-500 right-[1.9rem]'
       >
         <HiXMark />
       </button>

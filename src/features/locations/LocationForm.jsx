@@ -85,7 +85,7 @@ const LocationForm = ({ closeModal, locationId }) => {
 
       <button
         onClick={closeModal}
-        className='bg-none border-none p-1 rounded-sm translate-x-2 transition-all duration-200 absolute top-1 text-gray-500 right-[1.9rem]'
+        className='bg-none border-none p-1 rounded-sm translate-x-2 text-3xl transition-all duration-200 absolute top-2 text-gray-500 right-[1.9rem]'
       >
         <HiXMark />
       </button>

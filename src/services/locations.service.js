@@ -14,9 +14,9 @@ export const deleteLocationApi = async (locationId, token) => {
   }
 };
 
-export const getAllLocations = async () => {
+export const getAllLocations = async (page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?limit=100`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?page=${page}`);
 
     return response.data.data;
   } catch (error) {

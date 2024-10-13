@@ -44,9 +44,9 @@ export const deleteBlogApi = async (blogId, token) => {
   }
 };
 
-export const getAllBlogsApi = async () => {
+export const getAllBlogsApi = async (page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blogs`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blogs?page=${page}`);
 
     return response.data.data;
   } catch (error) {

@@ -22,21 +22,21 @@ const Pagination = ({ currentPage, next, totalPages }) => {
       <button
         onClick={prevPage}
         disabled={currentPage === 1}
-        className={`px-3 py-2 text-white rounded shadow-md transition-all flex items-center justify-center ${
+        className={`px-3 py-0.5 text-white rounded shadow-md transition-all flex items-center justify-center ${
           currentPage === 1 ? 'bg-gray-200 cursor-not-allowed' : 'bg-secondary hover:bg-secondary-light'
         }`}
       >
         <FaChevronLeft className='w-3 h-3' />
       </button>
 
-      <div className='text-sm font-medium text-gray-700'>
+      <div className='text-base font-medium text-gray-700'>
         Page {currentPage} of {totalPages}
       </div>
 
       <button
         onClick={nextPage}
         disabled={currentPage === totalPages}
-        className={`px-3 py-2 text-white rounded shadow-md transition-all flex items-center justify-center ${
+        className={`px-3 py-0.5 text-white rounded shadow-md transition-all flex items-center justify-center ${
           currentPage === totalPages ? 'bg-gray-200 cursor-not-allowed' : 'bg-secondary hover:bg-secondary-light'
         }`}
       >

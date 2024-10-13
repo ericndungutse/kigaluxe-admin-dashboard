@@ -5,11 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 export const useFetchCategories = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
-  const {
-    data: categories,
-    error,
-    isPending: isLoadingCategories,
-  } = useQuery({
+  const { data: categories, isPending: isLoadingCategories } = useQuery({
     queryKey: ['categories', String(page)],
     queryFn: () => getAllCategories(page),
   });

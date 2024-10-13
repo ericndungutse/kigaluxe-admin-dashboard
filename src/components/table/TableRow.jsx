@@ -34,5 +34,5 @@ export default function TableRow({ data, headers, dropdownOptions }) {
     );
   });
 
-  return <tr className='border-b'>{td}</tr>;
+  return <tr className='border-b last:border-0'>{td}</tr>;
 }

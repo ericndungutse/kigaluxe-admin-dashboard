@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAppointmentApi, getAllAppointmentsApi, upadteAppointmentApi } from '../services/appointments.service';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const useFetchAppointments = () => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
   const { isPending: isLoadingAppointments, data: appointments } = useQuery({
-    queryKey: ['appointments'],
-    queryFn: getAllAppointmentsApi,
+    queryKey: ['appointments', String(page)],
+    queryFn: () => getAllAppointmentsApi(page),
   });
 
   return { appointments, isLoadingAppointments };

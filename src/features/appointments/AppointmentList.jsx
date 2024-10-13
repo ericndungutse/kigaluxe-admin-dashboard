@@ -7,6 +7,7 @@ import Table from '../../components/table/Table';
 import { useDeleteAppointment, useEditAppointment, useFetchAppointments } from '../../hooks/appointment.hooks';
 import { useUser } from '../../hooks/useUser';
 import useCloseModal from '../../hooks/useCloseModal';
+import Pagination from '../../components/Pagination';
 
 const fields = [
   {
@@ -104,6 +105,13 @@ export default function AppointmentList() {
       )}
 
       <Table headers={fields} data={displayAppointments} dropdownOptions='delete' />
+      <div className='flex justify-end w-full'>
+        <Pagination
+          currentPage={appointments?.currentPage}
+          totalPages={appointments?.totalPages}
+          next={appointments?.next}
+        />
+      </div>
     </div>
   );
 }

@@ -3,16 +3,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { HiXMark } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import HorizontalFormRow from '../../components/HorizontalFormRow';
 import Input from '../../components/Input';
 import VerticalFormRow from '../../components/VerticalFormRow';
-import { getAllCategories } from '../../services/categories.service';
-import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
-import { useUser } from '../../hooks/useUser';
-import useFetchLocations from '../../hooks/locations.hooks';
-import { useNavigate } from 'react-router-dom';
 import { useFetchCategories } from '../../hooks/categories.hooks';
+import useFetchLocations from '../../hooks/locations.hooks';
+import { useUser } from '../../hooks/useUser';
+import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
 
 const PropertyForm = ({ closeModal, propertyId }) => {
   const navigate = useNavigate();
@@ -107,7 +106,7 @@ const PropertyForm = ({ closeModal, propertyId }) => {
 
       <button
         onClick={closeModal}
-        className='bg-none border-none p-1 rounded-sm translate-x-2 transition-all duration-200 absolute top-1 text-gray-500 right-[1.9rem]'
+        className='bg-none border-none p-1 rounded-sm translate-x-2 text-3xl transition-all duration-200 absolute top-2 text-gray-500 right-[1.9rem]'
       >
         <HiXMark />
       </button>

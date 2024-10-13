@@ -14,9 +14,9 @@ export const deleteAppointmentApi = async (appointmentId, token) => {
   }
 };
 
-export const getAllAppointmentsApi = async () => {
+export const getAllAppointmentsApi = async (page) => {
   try {
-    const response = await axios(`${import.meta.env.VITE_BACKEND_URL}/api/appointment`);
+    const response = await axios(`${import.meta.env.VITE_BACKEND_URL}/api/appointment?page=${page}`);
 
     return response.data.data;
   } catch (error) {

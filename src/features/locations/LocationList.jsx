@@ -11,6 +11,8 @@ import { deleteLocationApi } from '../../services/locations.service';
 import Prompt from '../../components/Prompt';
 import toast from 'react-hot-toast';
 import LocationDetails from './LocationDetails';
+import Pagination from '../../components/Pagination';
+import useCloseModal from '../../hooks/useCloseModal';
 
 const fields = [
   {
@@ -52,6 +54,7 @@ export default function LocationsList() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const navigate = useNavigate();
+  const closeModal = useCloseModal();
 
   const queryClient = useQueryClient();
 
@@ -78,13 +81,6 @@ export default function LocationsList() {
 
   // Load Locations
   const { isLoadingLocations, locations, loadingLocationsError } = useFetchLocations();
-
-  const closeModal = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('modal');
-    newParams.delete('resource_id');
-    setSearchParams(newParams);
-  };
 
   if (isLoadingLocations) {
     return <div>Loading...</div>;
@@ -129,9 +125,12 @@ export default function LocationsList() {
       )}
       <Table headers={fields} data={locations.paginate} />
 
-      <Button size='sm' onClick={() => setIsOpen(true)}>
-        Add Location
-      </Button>
+      <div className='flex justify-between w-full'>
+        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+          Add Location
+        </Button>
+        <Pagination currentPage={locations?.currentPage} totalPages={locations?.totalPages} next={locations?.next} />
+      </div>
     </div>
   );
 }

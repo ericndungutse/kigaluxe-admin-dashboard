@@ -1,13 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createBlogApi, deleteBlogApi, getAllBlogsApi, updateBlogApi } from '../services/blogs.service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useCloseModal from './useCloseModal';
 
 export const useFetchblogs = () => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
   const { data: blogs, isPending: isLoadingblogs } = useQuery({
-    queryKey: ['blogs'],
-    queryFn: getAllBlogsApi,
+    queryKey: ['blogs', page],
+    queryFn: () => getAllBlogsApi(page),
   });
 
   return { blogs, isLoadingblogs };
