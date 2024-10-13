@@ -6,7 +6,7 @@ import Locations from './pages/Locations';
 import Categories from './pages/Categories';
 import Users from './pages/Users';
 import Appointments from './pages/Appointments';
-import Blogs from './pages/blogs';
+import Blogs from './pages/Blogs';
 
 function App() {
   return (
