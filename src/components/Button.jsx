@@ -10,13 +10,14 @@ export default function Button({ children, loading, size = 'md', variant = 'prim
   const variants = {
     primary: 'bg-primary hover:bg-primary-light text-white',
     cancel: 'bg-gray-100 hover:bg-gray-200 text-gray-400',
+    secondary: 'bg-secondary hover:bg-secondary-light text-white',
   };
 
   return (
     <button
       onClick={onClick || null}
       disabled={loading}
-      className={`${sizes[size]} font-medium rounded transition-all duration-500 ${variants[variant]} ${
+      className={`${sizes[size]} font-medium rounded transition-all duration-300 ${variants[variant]} ${
         loading && 'disabled:bg-primary-light disabled:cursor-wait'
       }`}
     >

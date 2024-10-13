@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const fetchProperties = async () => {
+export const fetchProperties = async (page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties?page=${page}`);
 
     return response.data.data;
   } catch (error) {

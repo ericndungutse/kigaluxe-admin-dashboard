@@ -28,9 +28,9 @@ export const deleteCategoryApi = async (id) => {
   }
 };
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories?page=${page}`);
 
     return response.data.data;
   } catch (error) {

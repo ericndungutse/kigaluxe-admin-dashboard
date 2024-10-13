@@ -11,6 +11,8 @@ import PropertiesDetails from './PropertiesDetails';
 import Prompt from '../../components/Prompt';
 import toast from 'react-hot-toast';
 import { useUser } from '../../hooks/useUser';
+import Pagination from '../../components/Pagination';
+import useCloseModal from '../../hooks/useCloseModal';
 
 const fields = [
   {
@@ -40,13 +42,14 @@ const fields = [
 ];
 
 export default function PropertiesList() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const navigate = useNavigate();
-
   const queryClient = useQueryClient();
+  const closeModal = useCloseModal();
 
+  const page = searchParams.get('page') || 1;
   const id = searchParams.get('resource_id');
 
   // Update Property
@@ -73,16 +76,9 @@ export default function PropertiesList() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['properties'],
-    queryFn: fetchProperties,
+    queryKey: ['properties', page],
+    queryFn: () => fetchProperties(page),
   });
-
-  const closeModal = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('modal');
-    newParams.delete('resource_id');
-    setSearchParams(newParams);
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -120,17 +116,19 @@ export default function PropertiesList() {
         </Modal>
       )}
 
-      <Table headers={fields} data={properties.paginate} />
+      <Table headers={fields} data={properties?.paginate} />
+      <div className='flex justify-between w-full'>
+        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+          Add Property
+        </Button>
+        <Pagination currentPage={properties?.currentPage} totalPages={properties?.totalPages} next={properties?.next} />
+      </div>
 
       {isOpen && (
         <Modal closeModal={() => setIsOpen(false)}>
           <PropertyForm closeModal={() => setIsOpen(false)} />
         </Modal>
       )}
-
-      <Button size='sm' onClick={() => setIsOpen(true)}>
-        Add Property
-      </Button>
     </div>
   );
 }

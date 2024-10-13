@@ -12,6 +12,7 @@ import CategoryForm from './CategoryForm';
 import { deleteCategoryApi } from '../../services/categories.service';
 import toast from 'react-hot-toast';
 import useCloseModal from '../../hooks/useCloseModal';
+import Pagination from '../../components/Pagination';
 
 const fields = [
   {
@@ -91,10 +92,12 @@ export default function CategoriesList() {
       )}
 
       <Table headers={fields} data={categories.paginate} dropdownOptions='edit,delete' />
-
-      <Button size='sm' onClick={() => setIsOpen(true)}>
-        Add Category
-      </Button>
+      <div className='flex justify-between w-full'>
+        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+          Add Category
+        </Button>
+        <Pagination currentPage={categories?.currentPage} totalPages={categories?.totalPages} next={categories?.next} />
+      </div>
     </div>
   );
 }
