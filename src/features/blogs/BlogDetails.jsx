@@ -4,18 +4,16 @@ import { HiXMark } from 'react-icons/hi2';
 import { useSearchParams } from 'react-router-dom';
 import TextExtender from '../../components/TextExtender';
 import { useFetchCategories } from '../../hooks/categories.hooks';
+import { useFetchblogs } from '../../hooks/blogs.hooks';
 
 export default function BlogDetails({ closeModal }) {
   const [searchParams] = useSearchParams();
-  const blog_id = searchParams.get('resource_id');
-
-  const { data: blogs } = useQuery({
-    queryKey: ['blogs'],
-    enabled: false,
-  });
-
-  const blogDetails = blogs?.paginate?.find((blog) => blog.id === +blog_id);
+  const { blogs } = useFetchblogs();
   const { categories } = useFetchCategories();
+
+  const blog_id = searchParams.get('resource_id');
+  const blogDetails = blogs?.paginate?.find((blog) => blog.id === +blog_id);
+
   const blog = {
     ...blogDetails,
     categoryId: categories?.paginate?.find((category) => category.id === blogDetails?.categoryId).name,
