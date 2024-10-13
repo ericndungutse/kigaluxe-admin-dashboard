@@ -25,7 +25,6 @@ const PropertyForm = ({ closeModal, propertyId }) => {
   const { data: currentProperties } = useQuery({
     queryKey: ['properties'],
     queryFn: fetchProperties,
-    enabled: !isEdit,
   });
 
   // Create Property
