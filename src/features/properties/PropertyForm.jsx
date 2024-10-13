@@ -12,8 +12,9 @@ import { useFetchCategories } from '../../hooks/categories.hooks';
 import useFetchLocations from '../../hooks/locations.hooks';
 import { useUser } from '../../hooks/useUser';
 import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
+import { useFetchProperties } from '../../hooks/properties.hooks';
 
-const PropertyForm = ({ closeModal, propertyId }) => {
+const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' }) => {
   const navigate = useNavigate();
   const user = useUser();
   const { isLoadingLocations, locations } = useFetchLocations(1);
@@ -21,11 +22,7 @@ const PropertyForm = ({ closeModal, propertyId }) => {
   let isEdit = Boolean(propertyId);
   const queryClient = useQueryClient();
 
-  // Get current properties in the cache
-  const { data: currentProperties } = useQuery({
-    queryKey: ['properties'],
-    queryFn: fetchProperties,
-  });
+  const { properties: currentProperties } = useFetchProperties();
 
   // Create Property
   const { isPending, mutate: addNewProperty } = useMutation({
@@ -89,12 +86,16 @@ const PropertyForm = ({ closeModal, propertyId }) => {
     }
   };
 
+  console.log(propertyId);
+
+  console.log('Track' + currentProperties, currentPropertyValues);
+
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
       className='relative  mx-auto p-4 space-y-6 bg-white shadow-md rounded-lg w-[55rem]'
     >
-      <h2 className='text-2xl font-semibold text-gray-700'>Create New Property</h2>
+      <h2 className='text-2xl font-semibold text-gray-700'>{title}</h2>
 
       <button
         onClick={closeModal}

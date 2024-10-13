@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MdOutlineImage } from 'react-icons/md';
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2';
+import { MdOutlineImage } from 'react-icons/md';
+import { useSearchParams } from 'react-router-dom';
 import useOutsideClick from '../hooks/useOutsideClick';
 
 export default function DropDownManue({ resourceId, dropdownOptions }) {
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [isOpen, setIsOpen] = useState(false);
   const handleCloseMenu = () => setIsOpen(false);
@@ -36,7 +36,11 @@ export default function DropDownManue({ resourceId, dropdownOptions }) {
             <li className='group  hover:bg-primary-light hover:text-white'>
               <button
                 className='px-6 py-3 size-full text-start  flex items-center gap-2'
-                onClick={() => navigate(`?modal=details&resource_id=${resourceId}`)}
+                onClick={() => {
+                  searchParams.append('modal', 'details');
+                  searchParams.append('resource_id', resourceId);
+                  setSearchParams(searchParams);
+                }}
               >
                 <HiEye className='size-[1rem] text-gray-400 group-hover:text-white' /> Details
               </button>
@@ -47,7 +51,11 @@ export default function DropDownManue({ resourceId, dropdownOptions }) {
             <li className='group hover:bg-primary-light hover:text-white'>
               <button
                 className='px-6 py-3 size-full text-start  flex items-center gap-2'
-                onClick={() => navigate(`?modal=edit&resource_id=${resourceId}`)}
+                onClick={() => {
+                  searchParams.append('modal', 'edit');
+                  searchParams.append('resource_id', resourceId);
+                  setSearchParams(searchParams);
+                }}
               >
                 <HiPencil className='size-[1rem] text-gray-400 group-hover:text-white' /> Edit
               </button>
@@ -58,7 +66,11 @@ export default function DropDownManue({ resourceId, dropdownOptions }) {
             <li className='group hover:bg-primary-light hover:text-white'>
               <button
                 className='px-6 py-3 size-full text-start flex items-center gap-2'
-                onClick={() => navigate(`?modal=update-images&resource_id=${resourceId}`)}
+                onClick={() => {
+                  searchParams.append('modal', 'update-images');
+                  searchParams.append('resource_id', resourceId);
+                  setSearchParams(searchParams);
+                }}
               >
                 <MdOutlineImage className='size-[1rem] text-gray-400 group-hover:text-white' />
                 Update Image
@@ -70,7 +82,11 @@ export default function DropDownManue({ resourceId, dropdownOptions }) {
             <li className='group hover:bg-primary-light hover:text-white'>
               <button
                 className='px-6 py-3 size-full text-start flex items-center gap-2'
-                onClick={() => navigate(`?modal=delete&resource_id=${resourceId}`)}
+                onClick={() => {
+                  searchParams.append('modal', 'delete');
+                  searchParams.append('resource_id', resourceId);
+                  setSearchParams(searchParams);
+                }}
               >
                 <HiTrash className='size-[1rem] text-gray-400 group-hover:text-white' />
                 Delete

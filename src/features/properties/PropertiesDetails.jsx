@@ -1,18 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { FaBath, FaBed, FaBuilding, FaDollarSign, FaMapMarkerAlt, FaRegCheckCircle, FaRuler } from 'react-icons/fa';
+import { HiXMark } from 'react-icons/hi2';
 import { useSearchParams } from 'react-router-dom';
 import TextExtender from '../../components/TextExtender';
-import { HiXMark } from 'react-icons/hi2';
+import { useFetchProperties } from '../../hooks/properties.hooks';
 
 export default function PropertiesDetails({ closeModal }) {
   const [searchParams] = useSearchParams();
   const resource_id = searchParams.get('resource_id');
 
-  const { data: properties } = useQuery({
-    queryKey: ['properties'],
-    enabled: false,
-  });
+  const { properties } = useFetchProperties();
 
   const property = properties?.paginate?.find((property) => property.id === +resource_id);
   if (!property) {

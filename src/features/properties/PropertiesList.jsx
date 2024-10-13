@@ -14,6 +14,7 @@ import { useUser } from '../../hooks/useUser';
 import Pagination from '../../components/Pagination';
 import useCloseModal from '../../hooks/useCloseModal';
 import ImageUploader from '../../components/ImageUploader';
+import { useFetchProperties } from '../../hooks/properties.hooks';
 
 const fields = [
   {
@@ -50,7 +51,6 @@ export default function PropertiesList() {
   const queryClient = useQueryClient();
   const closeModal = useCloseModal();
 
-  const page = searchParams.get('page') || 1;
   const id = searchParams.get('resource_id');
 
   // Update Property
@@ -72,16 +72,9 @@ export default function PropertiesList() {
     },
   });
 
-  const {
-    data: properties,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['properties', page],
-    queryFn: () => fetchProperties(page),
-  });
+  const { properties, isLoadingProperties, isError } = useFetchProperties();
 
-  if (isLoading) {
+  if (isLoadingProperties) {
     return <div>Loading...</div>;
   }
 
@@ -113,7 +106,7 @@ export default function PropertiesList() {
 
       {searchParams.get('modal') === 'edit' && (
         <Modal closeModal={closeModal}>
-          <PropertyForm closeModal={closeModal} propertyId={searchParams.get('resource_id')} />
+          <PropertyForm closeModal={closeModal} propertyId={searchParams.get('resource_id')} title='Edit Property' />
         </Modal>
       )}
 
