@@ -4,7 +4,7 @@ import BlogsList from '../features/blogs/BlogsList';
 
 function Blogs() {
   return (
-    <div className='px-6 flex flex-col gap-4'>
+    <div className='flex flex-col gap-4'>
       <Heading text='All blogs' variation='h2' />
       <BlogsList />
     </div>

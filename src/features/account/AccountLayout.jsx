@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Outlet } from 'react-router-dom';
+import UserProfile from '../../components/UserProfile';
 import AccountAsideBar from './AccountSideBar';
 
 export default function AccountLayout() {
@@ -8,8 +9,11 @@ export default function AccountLayout() {
     <section className='bg-white w-screen h-screen flex'>
       <AccountAsideBar />
       <main className='bg-[#f9fafb] flex-1 h-full flex flex-col'>
-        <header className='py-6 px-4 bg-white border-b'>Header</header>
-        <div className='overflow-auto py-4 px-6 h-full'>
+        <div className='py-4 border-b px-12 flex justify-end items-center bg-white'>
+          <UserProfile />
+        </div>
+
+        <div className='overflow-auto py-4 px-12 h-full'>
           <Outlet />
         </div>
       </main>

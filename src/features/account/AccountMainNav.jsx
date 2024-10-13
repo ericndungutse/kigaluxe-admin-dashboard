@@ -1,11 +1,9 @@
 import React from 'react';
 import { BiCategoryAlt } from 'react-icons/bi';
-import { FaBlog } from 'react-icons/fa6';
+import { FaBlog, FaRegClock } from 'react-icons/fa6';
 import { MdOutlineRealEstateAgent } from 'react-icons/md';
 import { TbLocationCheck } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
-import { FaRegClock } from 'react-icons/fa6';
-import { PiUsersBold } from 'react-icons/pi';
 
 export default function AccountMainNav() {
   return (
