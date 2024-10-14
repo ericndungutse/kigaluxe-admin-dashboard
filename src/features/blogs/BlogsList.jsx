@@ -12,6 +12,7 @@ import BlogDetails from './BlogDetails';
 import BlogForm from './BlogForm';
 import Pagination from '../../components/Pagination';
 import ImageUploader from '../../components/ImageUploader';
+import Search from '../../components/Search';
 
 const fields = [
   {
@@ -36,13 +37,9 @@ export default function BlogsList() {
   const { isUploadingBlogimages, uploadBlogImage } = useUploadBlogImage();
   const id = searchParams.get('resource_id');
 
-  const { isLoadingCategories, categories } = useFetchCategories(1);
-  const { isLoadingblogs, blogs } = useFetchblogs();
+  const { categories } = useFetchCategories(1);
+  const { isLoadingblogs, blogs, loadingBlogsError } = useFetchblogs();
   const { isDeletingBlog, deleteBlog } = useDeleteBlog();
-
-  if (isLoadingblogs || isLoadingCategories) {
-    return <div>Loading...</div>;
-  }
 
   const handleDeleteBlog = async () => {
     deleteBlog(
@@ -63,55 +60,67 @@ export default function BlogsList() {
 
   return (
     <div className='flex flex-col gap-3 items-start'>
-      {searchParams.get('modal') === 'details' && (
-        <Modal closeModal={closeModal}>
-          <BlogDetails closeModal={closeModal} />
-        </Modal>
-      )}
-      {searchParams.get('modal') === 'delete' && (
-        <Modal closeModal={closeModal}>
-          <Prompt
-            message='Are you sure you want to delete this blog?'
-            headingText='Delete blog'
-            yesText='Delete'
-            noText='Cancel'
-            onCloseModel={closeModal}
-            onConfirm={handleDeleteBlog}
-            disabled={isDeletingBlog}
-          />
-        </Modal>
-      )}
-      {searchParams.get('modal') === 'edit' && (
-        <Modal closeModal={closeModal}>
-          <BlogForm closeModal={closeModal} blogId={searchParams.get('resource_id')} />
-        </Modal>
-      )}
-
-      {isOpen && (
-        <Modal closeModal={() => setIsOpen(false)}>
-          <BlogForm closeModal={() => setIsOpen(false)} />
-        </Modal>
-      )}
-
-      {searchParams.get('modal') === 'update-images' && (
-        <Modal closeModal={closeModal}>
-          <ImageUploader
-            closeModal={closeModal}
-            resourceId={searchParams.get('resource_id')}
-            onSubmit={uploadBlogImage}
-            uploading={isUploadingBlogimages}
-            multiple={false}
-          />
-        </Modal>
-      )}
-
-      <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,update image,delete' />
-      <div className='flex justify-between w-full'>
-        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
-          Create Blog
-        </Button>
-        <Pagination currentPage={blogs?.currentPage} totalPages={blogs?.totalPages} next={blogs?.next} />
+      <div className='flex justify-end w-full'>
+        <Search resource='blog' />
       </div>
+
+      {isLoadingblogs ? (
+        <div>Loading...</div>
+      ) : loadingBlogsError ? (
+        <div className='text-red-500 bg-red-200 text-center capitalize p-2 rounded'>{loadingBlogsError.message}</div>
+      ) : (
+        <>
+          {searchParams.get('modal') === 'details' && (
+            <Modal closeModal={closeModal}>
+              <BlogDetails closeModal={closeModal} />
+            </Modal>
+          )}
+          {searchParams.get('modal') === 'delete' && (
+            <Modal closeModal={closeModal}>
+              <Prompt
+                message='Are you sure you want to delete this blog?'
+                headingText='Delete blog'
+                yesText='Delete'
+                noText='Cancel'
+                onCloseModel={closeModal}
+                onConfirm={handleDeleteBlog}
+                disabled={isDeletingBlog}
+              />
+            </Modal>
+          )}
+          {searchParams.get('modal') === 'edit' && (
+            <Modal closeModal={closeModal}>
+              <BlogForm closeModal={closeModal} blogId={searchParams.get('resource_id')} />
+            </Modal>
+          )}
+
+          {isOpen && (
+            <Modal closeModal={() => setIsOpen(false)}>
+              <BlogForm closeModal={() => setIsOpen(false)} />
+            </Modal>
+          )}
+
+          {searchParams.get('modal') === 'update-images' && (
+            <Modal closeModal={closeModal}>
+              <ImageUploader
+                closeModal={closeModal}
+                resourceId={searchParams.get('resource_id')}
+                onSubmit={uploadBlogImage}
+                uploading={isUploadingBlogimages}
+                multiple={false}
+              />
+            </Modal>
+          )}
+
+          <Table headers={fields} data={displayBlogs} dropdownOptions='details,edit,update image,delete' />
+          <div className='flex justify-between w-full'>
+            <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+              Create Blog
+            </Button>
+            <Pagination currentPage={blogs?.currentPage} totalPages={blogs?.totalPages} next={blogs?.next} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

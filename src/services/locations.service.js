@@ -16,7 +16,7 @@ export const deleteLocationApi = async (locationId, token) => {
 
 export const getAllLocations = async (page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?page=${page}`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?page=${page}&limit=4`);
 
     return response.data.data;
   } catch (error) {
@@ -64,5 +64,15 @@ export const uploadLocationImageApi = async (locationId, formData, token) => {
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.error);
+  }
+};
+
+export const searchLocation = async (query) => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/place/search?location=${query}`);
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
 };

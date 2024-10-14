@@ -20,7 +20,7 @@ export const getAllAppointmentsApi = async (page) => {
 
     return response.data.data;
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };
 

@@ -3,6 +3,7 @@ import {
   createBlogApi,
   deleteBlogApi,
   getAllBlogsApi,
+  searchBlog,
   updateBlogApi,
   uploadBlogImageApi,
 } from '../services/blogs.service';
@@ -14,12 +15,25 @@ import { useUser } from './useUser';
 export const useFetchblogs = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
-  const { data: blogs, isPending: isLoadingblogs } = useQuery({
-    queryKey: ['blogs', page],
-    queryFn: () => getAllBlogsApi(page),
+  const query = searchParams.get('blog');
+
+  const queryName = query ? ['blogs', String(page), query] : ['blogs', String(page)];
+  const {
+    data: blogs,
+    isPending: isLoadingblogs,
+    error: loadingBlogsError,
+  } = useQuery({
+    queryKey: queryName,
+    queryFn: () => {
+      if (query) {
+        return searchBlog(query);
+      } else {
+        return getAllBlogsApi(page);
+      }
+    },
   });
 
-  return { blogs, isLoadingblogs };
+  return { blogs, isLoadingblogs, loadingBlogsError };
 };
 
 export const useEditBlog = () => {

@@ -6,7 +6,7 @@ export const addCategoryApi = async (category) => {
 
     return response.data.data;
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };
 
@@ -16,7 +16,7 @@ export const updateCategoryApi = async (category, id) => {
 
     return response.data.data;
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };
 
@@ -24,7 +24,7 @@ export const deleteCategoryApi = async (id) => {
   try {
     await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/categories/${id}`);
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };
 
@@ -34,7 +34,7 @@ export const getAllCategories = async (page) => {
 
     return response.data.data;
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };
 
@@ -44,6 +44,6 @@ export const getCategoryById = async (id) => {
 
     return response.data.data;
   } catch (error) {
-    throw new Error(error.respons.data.error);
+    throw new Error(error.response.data.error);
   }
 };

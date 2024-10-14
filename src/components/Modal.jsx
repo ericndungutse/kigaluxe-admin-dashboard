@@ -1,5 +1,4 @@
 import React from 'react';
-import useOutsideClick from '../hooks/useOutsideClick';
 
 export function ModalOverlay({ children }) {
   return (
@@ -9,11 +8,10 @@ export function ModalOverlay({ children }) {
   );
 }
 
-function Modal({ children, closeModal }) {
-  const ref = useOutsideClick(closeModal, true);
+function Modal({ children }) {
   return (
     <ModalOverlay>
-      <div ref={ref} className='transition-all duration-500 h-auto w-max py-8'>
+      <div className='transition-all duration-500 h-auto w-max py-8'>
         {children}
         <div className='h-20 w-full'></div>
       </div>

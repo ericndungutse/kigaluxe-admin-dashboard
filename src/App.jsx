@@ -12,8 +12,6 @@ import { useUser } from './hooks/useUser';
 const Protect = ({ children }) => {
   const user = useUser();
 
-  console.log(user);
-
   if (!user.user) {
     return <Navigate to='/' replace />;
   }

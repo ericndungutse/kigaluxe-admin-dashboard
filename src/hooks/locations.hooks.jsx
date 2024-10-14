@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getAllLocations, uploadLocationImageApi } from '../services/locations.service';
+import { getAllLocations, searchLocation, uploadLocationImageApi } from '../services/locations.service';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUser } from './useUser';
 import toast from 'react-hot-toast';
@@ -7,13 +7,23 @@ import toast from 'react-hot-toast';
 const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
   const page = pageToFetch || searchParams.get('page') || 1;
+  const query = searchParams.get('location');
+
+  const queryName = query ? ['locations', String(page), query] : ['locations', String(page)];
+
   const {
     isPending: isLoadingLocations,
     data: locations,
     error: loadingLocationsError,
   } = useQuery({
-    queryKey: ['locations', String(page)],
-    queryFn: () => getAllLocations(page),
+    queryKey: queryName,
+    queryFn: () => {
+      if (query) {
+        return searchLocation(query);
+      } else {
+        return getAllLocations(page);
+      }
+    },
     enabled: refetch,
   });
 
