@@ -57,10 +57,7 @@ export default function BlogDetails({ closeModal }) {
         <TextExtender text={blog.content} maxLength={150} />
       </div> */}
 
-      <div
-        className='mb-6'
-        dangerouslySetInnerHTML={{ __html: blog.content }} // Renders HTML content
-      />
+      <div className='mb-6' dangerouslySetInnerHTML={{ __html: blog.content }} />
 
       {/* Blog Details */}
       <div className='mb-6'>

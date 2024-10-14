@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { HiXMark } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import useFetchLocations from '../../hooks/locations.hooks';
 import { useUser } from '../../hooks/useUser';
 import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
 import { useFetchProperties } from '../../hooks/properties.hooks';
+import Editor from '../../components/Editor';
 
 const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' }) => {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -136,12 +138,12 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
 
         {/* Details */}
         <VerticalFormRow label='Details' error={errors['details'] && errors['details'].message}>
-          <textarea
-            className='border rounded-md p-2'
-            id='details'
-            value={currentPropertyValues?.details}
-            placeholder='Enter details'
-            {...register('details', { required: 'Details is required' })}
+          <Controller
+            name='details'
+            control={control}
+            defaultValue={currentPropertyValues?.details || ''}
+            rules={{ required: 'Details is required' }}
+            render={({ field: { onChange, value } }) => <Editor onChange={onChange} value={value} />}
           />
         </VerticalFormRow>
 

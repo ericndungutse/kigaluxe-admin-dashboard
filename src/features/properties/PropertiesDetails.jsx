@@ -2,7 +2,6 @@ import React from 'react';
 import { FaBath, FaBed, FaBuilding, FaDollarSign, FaMapMarkerAlt, FaRegCheckCircle, FaRuler } from 'react-icons/fa';
 import { HiXMark } from 'react-icons/hi2';
 import { useSearchParams } from 'react-router-dom';
-import TextExtender from '../../components/TextExtender';
 import { useFetchProperties } from '../../hooks/properties.hooks';
 
 export default function PropertiesDetails({ closeModal }) {
@@ -39,9 +38,7 @@ export default function PropertiesDetails({ closeModal }) {
       </div>
 
       {/* Property Details */}
-      <div className='mb-6'>
-        <TextExtender text={property.details} maxLength={150} />
-      </div>
+      <div className='mb-6' dangerouslySetInnerHTML={{ __html: property.details }}></div>
 
       {/* Combined Columns for Price, Type, Size, Specifications, and Appliances */}
       <div className='grid grid-cols-3 gap-6 mb-6'>
