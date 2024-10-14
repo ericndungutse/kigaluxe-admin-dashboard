@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import Prompt from '../../components/Prompt';
 import Table from '../../components/table/Table';
-import { useDeleteBlog, useFetchblogs } from '../../hooks/blogs.hooks';
+import { useDeleteBlog, useFetchblogs, useUploadBlogImage } from '../../hooks/blogs.hooks';
 import { useFetchCategories } from '../../hooks/categories.hooks';
 import useCloseModal from '../../hooks/useCloseModal';
 import { useUser } from '../../hooks/useUser';
@@ -32,8 +32,9 @@ export default function BlogsList() {
   const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
-  const id = searchParams.get('resource_id');
   const closeModal = useCloseModal();
+  const { isUploadingBlogimages, uploadBlogImage } = useUploadBlogImage();
+  const id = searchParams.get('resource_id');
 
   const { isLoadingCategories, categories } = useFetchCategories(1);
   const { isLoadingblogs, blogs } = useFetchblogs();
@@ -59,8 +60,6 @@ export default function BlogsList() {
       categoryId: category?.name,
     };
   });
-
-  console.log(categories);
 
   return (
     <div className='flex flex-col gap-3 items-start'>
@@ -96,7 +95,13 @@ export default function BlogsList() {
 
       {searchParams.get('modal') === 'update-images' && (
         <Modal closeModal={closeModal}>
-          <ImageUploader closeModal={closeModal} resourceId={searchParams.get('resource_id')} multiple={false} />
+          <ImageUploader
+            closeModal={closeModal}
+            resourceId={searchParams.get('resource_id')}
+            onSubmit={uploadBlogImage}
+            uploading={isUploadingBlogimages}
+            multiple={false}
+          />
         </Modal>
       )}
 

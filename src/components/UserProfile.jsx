@@ -13,7 +13,8 @@ function UserProfile() {
     navigate('/');
   };
 
-  const src = user?.user?.user?.profileImg === 'profile2.jpg' ? '/default-user.webp' : user?.user?.user?.profileImg;
+  const src =
+    user?.user?.user?.profileImg === 'user/profile2.jpg' ? '/default-user.webp' : user?.user?.user?.profileImg;
 
   return (
     <div className='flex gap-4 items-center '>

@@ -13,7 +13,7 @@ const ImageUploader = ({ closeModal, multiple = true, onSubmit, uploading }) => 
     setSuccessMessage('');
   };
 
-  const handleUpload = async (e) => {
+  const handleUpload = (e) => {
     e.preventDefault();
     if (!selectedFiles || selectedFiles.length === 0) {
       setError('Please select at least one image to upload.');

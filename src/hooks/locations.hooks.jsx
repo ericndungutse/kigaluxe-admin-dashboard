@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllLocations, uploadLocationImageApi } from '../services/locations.service';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUser } from './useUser';
+import toast from 'react-hot-toast';
 
 const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
