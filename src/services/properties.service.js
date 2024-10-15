@@ -77,3 +77,19 @@ export const uploadPropertyImageApi = async (propertyId, formData, token) => {
     throw new Error(error.response.data.error);
   }
 };
+
+export const filterProperty = async (query, page) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/search?${query}&page=${page}&limit=2`);
+
+    return response.data.data;
+  } catch (error) {
+    const message = error.response.data.error
+      ? error.response.data.error
+      : error.response.data.message
+      ? error.response.data.message
+      : 'An error has occured';
+
+    throw new Error(message);
+  }
+};

@@ -69,11 +69,11 @@ export const uploadBlogImageApi = async (blogId, formData, token) => {
   }
 };
 
-export const searchBlog = async (query) => {
+export const searchBlog = async (query, page) => {
   try {
-    console.log(query);
-
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/blog/search?entry=${query}`);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/blog/search?entry=${query}&page=${page}`
+    );
 
     return response.data.data;
   } catch (error) {

@@ -19,7 +19,7 @@ function Prompt({ onConfirm, disabled, onCloseModel, headingText, message, yesTe
           <Button onClick={onConfirm} variant='primary' size='md' loading={disabled}>
             {yesText}
           </Button>
-          <Button onClick={onCloseModel} variant='cancel' size='md'>
+          <Button onClick={onCloseModel} variant='tertiary' size='md'>
             {noText}
           </Button>
         </div>

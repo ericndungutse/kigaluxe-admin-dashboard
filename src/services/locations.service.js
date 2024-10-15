@@ -15,8 +15,12 @@ export const deleteLocationApi = async (locationId, token) => {
 };
 
 export const getAllLocations = async (page) => {
+  const url = page
+    ? `${import.meta.env.VITE_BACKEND_URL}/api/place?page=${page}`
+    : `${import.meta.env.VITE_BACKEND_URL}/api/place`;
+
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/place?page=${page}&limit=4`);
+    const response = await axios.get(url);
 
     return response.data.data;
   } catch (error) {
@@ -67,9 +71,11 @@ export const uploadLocationImageApi = async (locationId, formData, token) => {
   }
 };
 
-export const searchLocation = async (query) => {
+export const searchLocation = async (query, page) => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/place/search?location=${query}`);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/place/search?location=${query}&page=${page}&limit=2`
+    );
 
     return response.data.data;
   } catch (error) {

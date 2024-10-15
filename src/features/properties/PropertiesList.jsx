@@ -1,20 +1,21 @@
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { deletePropertyApi } from '../../services/properties.service';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import Table from '../../components/table/Table';
-import { fetchProperties } from '../../services/properties.service';
-import PropertyForm from './PropertyForm';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import PropertiesDetails from './PropertiesDetails';
-import Prompt from '../../components/Prompt';
 import toast from 'react-hot-toast';
-import { useUser } from '../../hooks/useUser';
-import Pagination from '../../components/Pagination';
-import useCloseModal from '../../hooks/useCloseModal';
+import { FiFilter } from 'react-icons/fi';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Button from '../../components/Button';
 import ImageUploader from '../../components/ImageUploader';
+import Modal from '../../components/Modal';
+import Pagination from '../../components/Pagination';
+import Prompt from '../../components/Prompt';
+import Table from '../../components/table/Table';
 import { useFetchProperties, useUploadPropertyImages } from '../../hooks/properties.hooks';
+import useCloseModal from '../../hooks/useCloseModal';
+import { useUser } from '../../hooks/useUser';
+import { deletePropertyApi } from '../../services/properties.service';
+import PropertiesDetails from './PropertiesDetails';
+import PropertyFilterForm from './PropertyFIlterForm';
+import PropertyForm from './PropertyForm';
 
 const fields = [
   {
@@ -50,10 +51,9 @@ export default function PropertiesList() {
   const user = useUser();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const closeModal = useCloseModal();
-
   const { isUploadingPropertyimages, uploadPropertyImages } = useUploadPropertyImages();
-
   const id = searchParams.get('resource_id');
 
   // Update Property
@@ -75,67 +75,91 @@ export default function PropertiesList() {
     },
   });
 
-  const { properties, isLoadingProperties, isError } = useFetchProperties();
-
-  if (isLoadingProperties) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching properties</div>;
-  }
+  const { properties, isLoadingProperties, isError, error } = useFetchProperties();
 
   return (
     <div className='flex flex-col gap-3 items-start'>
-      {searchParams.get('modal') === 'details' && (
-        <Modal closeModal={closeModal}>
-          <PropertiesDetails closeModal={closeModal} />
-        </Modal>
-      )}
-
-      {searchParams.get('modal') === 'delete' && (
-        <Modal closeModal={closeModal}>
-          <Prompt
-            message='Are you sure you want to delete this property?'
-            headingText='Delete property'
-            yesText='Delete'
-            noText='Cancel'
-            onCloseModel={closeModal}
-            onConfirm={() => deleteProperty()}
-            disabled={isDeleting}
-          />
-        </Modal>
-      )}
-
-      {searchParams.get('modal') === 'edit' && (
-        <Modal closeModal={closeModal}>
-          <PropertyForm closeModal={closeModal} propertyId={searchParams.get('resource_id')} title='Edit Property' />
-        </Modal>
-      )}
-
-      {searchParams.get('modal') === 'update-images' && (
-        <Modal closeModal={closeModal}>
-          <ImageUploader
-            closeModal={closeModal}
-            resourceId={searchParams.get('resource_id')}
-            onSubmit={uploadPropertyImages}
-            uploading={isUploadingPropertyimages}
-          />
-        </Modal>
-      )}
-
-      <Table headers={fields} data={properties?.paginate} dropdownOptions='details,edit,update image,delete' />
-      <div className='flex justify-between w-full'>
-        <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
-          Add Property
+      <div className='flex justify-end w-full'>
+        <Button
+          size='sm'
+          onClick={() => {
+            setIsFilterOpen(!isFilterOpen);
+          }}
+          variant='tertiary'
+          styles='flex gap-2'
+        >
+          <span>Filters</span>
+          <FiFilter className='mr-2' />
         </Button>
-        <Pagination currentPage={properties?.currentPage} totalPages={properties?.totalPages} next={properties?.next} />
       </div>
+      {/* Filter Form */}
+      {isFilterOpen && <PropertyFilterForm closeForm={() => setIsFilterOpen(false)} />}
 
-      {isOpen && (
-        <Modal closeModal={() => setIsOpen(false)}>
-          <PropertyForm closeModal={() => setIsOpen(false)} />
-        </Modal>
+      {isLoadingProperties ? (
+        <div>Loading</div>
+      ) : isError ? (
+        <div>{error?.message}</div>
+      ) : (
+        <>
+          {searchParams.get('modal') === 'details' && (
+            <Modal closeModal={closeModal}>
+              <PropertiesDetails closeModal={closeModal} />
+            </Modal>
+          )}
+
+          {searchParams.get('modal') === 'delete' && (
+            <Modal closeModal={closeModal}>
+              <Prompt
+                message='Are you sure you want to delete this property?'
+                headingText='Delete property'
+                yesText='Delete'
+                noText='Cancel'
+                onCloseModel={closeModal}
+                onConfirm={() => deleteProperty()}
+                disabled={isDeleting}
+              />
+            </Modal>
+          )}
+
+          {searchParams.get('modal') === 'edit' && (
+            <Modal closeModal={closeModal}>
+              <PropertyForm
+                closeModal={closeModal}
+                propertyId={searchParams.get('resource_id')}
+                title='Edit Property'
+              />
+            </Modal>
+          )}
+
+          {searchParams.get('modal') === 'update-images' && (
+            <Modal closeModal={closeModal}>
+              <ImageUploader
+                closeModal={closeModal}
+                resourceId={searchParams.get('resource_id')}
+                onSubmit={uploadPropertyImages}
+                uploading={isUploadingPropertyimages}
+              />
+            </Modal>
+          )}
+
+          <Table headers={fields} data={properties?.paginate} dropdownOptions='details,edit,update image,delete' />
+          <div className='flex justify-between w-full'>
+            <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
+              Add Property
+            </Button>
+            <Pagination
+              currentPage={properties?.currentPage}
+              totalPages={properties?.totalPages}
+              next={properties?.next}
+            />
+          </div>
+
+          {isOpen && (
+            <Modal closeModal={() => setIsOpen(false)}>
+              <PropertyForm closeModal={() => setIsOpen(false)} />
+            </Modal>
+          )}
+        </>
       )}
     </div>
   );

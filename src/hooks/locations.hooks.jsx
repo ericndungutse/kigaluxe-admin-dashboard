@@ -10,7 +10,10 @@ const useFetchLocations = (pageToFetch, refetch = true) => {
   const page = pageToFetch || searchParams.get('page') || 1;
   const query = searchParams.get('location');
 
-  const queryName = query ? ['locations', String(page), query] : ['locations', String(page)];
+  const queryName = ['locations', String(page)];
+  if (query) {
+    queryName.push(query);
+  }
 
   const {
     isPending: isLoadingLocations,
@@ -20,7 +23,7 @@ const useFetchLocations = (pageToFetch, refetch = true) => {
     queryKey: queryName,
     queryFn: () => {
       if (query) {
-        return searchLocation(query);
+        return searchLocation(query, page);
       } else {
         return getAllLocations(page);
       }

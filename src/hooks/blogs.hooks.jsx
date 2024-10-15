@@ -17,7 +17,11 @@ export const useFetchblogs = () => {
   const page = searchParams.get('page') || 1;
   const query = searchParams.get('blog');
 
-  const queryName = query ? ['blogs', String(page), query] : ['blogs', String(page)];
+  const queryName = ['blogs', String(page)];
+  if (query) {
+    queryName.push(query);
+  }
+
   const {
     data: blogs,
     isPending: isLoadingblogs,
@@ -26,7 +30,7 @@ export const useFetchblogs = () => {
     queryKey: queryName,
     queryFn: () => {
       if (query) {
-        return searchBlog(query);
+        return searchBlog(query, page);
       } else {
         return getAllBlogsApi(page);
       }
