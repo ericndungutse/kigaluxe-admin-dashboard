@@ -3,6 +3,7 @@ import { fetchProperties, uploadPropertyImageApi } from '../services/properties.
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useUser } from './useUser';
 import toast from 'react-hot-toast';
+import useCloseModal from './useCloseModal';
 
 export const useFetchProperties = (pageToFetch) => {
   const [searchParams] = useSearchParams();
@@ -25,6 +26,7 @@ export const useUploadPropertyImages = () => {
   const user = useUser();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const closeModal = useCloseModal();
 
   const invalidateQuery = !searchParams.get('page') ? 'properties' : ['properties', searchParams.get('page')];
 
@@ -35,6 +37,7 @@ export const useUploadPropertyImages = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(invalidateQuery);
+      closeModal();
       toast.success('Images uploaded successfully');
     },
 

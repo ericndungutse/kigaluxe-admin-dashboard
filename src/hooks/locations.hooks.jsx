@@ -3,6 +3,7 @@ import { getAllLocations, searchLocation, uploadLocationImageApi } from '../serv
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUser } from './useUser';
 import toast from 'react-hot-toast';
+import useCloseModal from './useCloseModal';
 
 const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
@@ -35,6 +36,7 @@ export const useUploadLocationImage = () => {
   const user = useUser();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const closeModal = useCloseModal();
 
   const invalidateQuery = !searchParams.get('page') ? 'locations' : ['locations', searchParams.get('page')];
 
@@ -45,6 +47,7 @@ export const useUploadLocationImage = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(invalidateQuery);
+      closeModal();
       toast.success('Location image uploaded successfully');
     },
 

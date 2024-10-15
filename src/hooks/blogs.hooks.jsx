@@ -123,6 +123,7 @@ export const useUploadBlogImage = () => {
   const user = useUser();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const closeModal = useCloseModal();
 
   const invalidateQuery = !searchParams.get('page') ? 'locations' : ['locations', searchParams.get('page')];
 
@@ -133,6 +134,7 @@ export const useUploadBlogImage = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(invalidateQuery);
+      closeModal();
       toast.success('Blog image uploaded successfully');
     },
 
