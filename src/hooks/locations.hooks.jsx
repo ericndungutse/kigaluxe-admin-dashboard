@@ -8,7 +8,7 @@ import useCloseModal from './useCloseModal';
 const useFetchLocations = (pageToFetch, refetch = true) => {
   const [searchParams] = useSearchParams();
   const page = pageToFetch || searchParams.get('page') || 1;
-  const query = searchParams.get('location');
+  const query = searchParams.get('locations');
 
   const queryName = ['locations', String(page)];
   if (query) {

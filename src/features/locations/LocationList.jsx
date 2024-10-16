@@ -62,7 +62,7 @@ export default function LocationsList() {
   return (
     <div className='flex flex-col gap-3 items-start'>
       <div className='flex justify-end w-full'>
-        <Search resource='location' />
+        <Search resource='locations' />
       </div>
 
       {isLoadingLocations ? (
