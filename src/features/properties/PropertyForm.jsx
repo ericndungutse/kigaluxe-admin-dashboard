@@ -255,17 +255,34 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
           </VerticalFormRow>
         </div>
 
-        {/* Appliances */}
-        <VerticalFormRow label='Appliances'>
-          <Input
-            isDisabled={isPending || isUpdating}
-            id='appliances'
-            type='text'
-            value={currentPropertyValues?.appliances}
-            placeholder='Enter comma separated list of appliances like fridge, stove, etc'
-            register={register('appliances')}
-          />
-        </VerticalFormRow>
+        <div className='flex justify-between gap-3'>
+          {/* Appliances */}
+          <VerticalFormRow label='Appliances'>
+            <Input
+              isDisabled={isPending || isUpdating}
+              id='appliances'
+              type='text'
+              value={currentPropertyValues?.appliances}
+              placeholder='Enter comma separated list of appliances like fridge, stove, etc'
+              register={register('appliances')}
+            />
+          </VerticalFormRow>
+
+          {/* YouTube Video ID */}
+          <VerticalFormRow
+            label='YouTube Video ID'
+            error={errors['youtubeVideoId'] && errors['youtubeVideoId'].message}
+          >
+            <Input
+              isDisabled={isPending || isUpdating}
+              id='youtubeVideoId'
+              type='text'
+              value={currentPropertyValues?.youtubeVideoId}
+              placeholder='Enter YouTube video ID'
+              register={register('YTUrl')}
+            />
+          </VerticalFormRow>
+        </div>
 
         <div className='flex items-center justify-between gap-4'>
           {/* Has Parking */}
