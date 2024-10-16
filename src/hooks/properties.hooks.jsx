@@ -9,24 +9,50 @@ export const useFetchProperties = (pageToFetch) => {
   const [searchParams] = useSearchParams();
   const page = pageToFetch || searchParams.get('page') || 1;
 
-  // Build query to the api: Like location=<name>&...
-  let query = '';
-  Object.entries(Object.fromEntries(searchParams)).forEach(([key, value]) => {
-    if (key === 'page') return;
-    // IF key is price or property_size, split the value and add it to the query
-    // Normaly comes as price=100,1000 => price=[100,1000]
-    if (key === 'price' || key === 'property_size') {
-      query += `${key}=[${value.split(',')[0]},${value.split(',')[1]}]&`;
-    } else {
-      query += `${key}=${value}&`;
-    }
-  });
+  const query = [
+    {
+      key: 'location',
+      value: searchParams.get('location'),
+    },
+    {
+      key: 'property_size',
+      value: searchParams.get('property_size'),
+    },
+    {
+      key: 'price',
+      value: searchParams.get('price'),
+    },
+    {
+      key: 'property_type',
+      value: searchParams.get('property_type'),
+    },
+    {
+      key: 'isForSale',
+      value: searchParams.get('isForSale'),
+    },
+    {
+      key: 'isForRent',
+      value: searchParams.get('isForRent'),
+    },
+  ];
 
-  // Remove the last character of the query(&)
-  query = query.slice(0, -1);
+  let requestQuery = '';
 
   // Build react query Query Name
-  const queryName = query ? ['properties', String(page), query] : ['properties', String(page)];
+  const queryName = ['properties', String(page)];
+  for (const item of query) {
+    if (item.value) {
+      if (item?.key === 'price' || item?.key === 'property_size') {
+        requestQuery += `${item?.key}=[${item?.value?.split(',')[0]},${item?.value?.split(',')[1]}]&`;
+      } else {
+        requestQuery += `${item?.key}=${item?.value}&`;
+      }
+      queryName.push(item?.value);
+    }
+  }
+
+  // Remove the last character of the query(&)
+  requestQuery = requestQuery.slice(0, -1);
 
   const {
     data: properties,
@@ -36,8 +62,8 @@ export const useFetchProperties = (pageToFetch) => {
   } = useQuery({
     queryKey: queryName,
     queryFn: () => {
-      if (query) {
-        return filterProperty(query, page);
+      if (requestQuery) {
+        return filterProperty(requestQuery, page);
       } else {
         return fetchProperties(page);
       }

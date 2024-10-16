@@ -1,19 +1,20 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { HiXMark } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import Button from '../../components/Button';
+import Editor from '../../components/Editor';
 import HorizontalFormRow from '../../components/HorizontalFormRow';
 import Input from '../../components/Input';
 import VerticalFormRow from '../../components/VerticalFormRow';
 import { useFetchCategories } from '../../hooks/categories.hooks';
 import useFetchLocations from '../../hooks/locations.hooks';
-import { useUser } from '../../hooks/useUser';
-import { addProperty, fetchProperties, updatePropertyApi } from '../../services/properties.service';
 import { useFetchProperties } from '../../hooks/properties.hooks';
-import Editor from '../../components/Editor';
+import { useUser } from '../../hooks/useUser';
+import { addProperty, updatePropertyApi } from '../../services/properties.service';
 
 const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' }) => {
   const navigate = useNavigate();
@@ -80,13 +81,37 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
   const submitForm = (data) => {
     if (isEdit) {
       updateProperty(
-        { ...data, imageIds: currentPropertyValues?.imageIds || [], appliances: data?.appliances?.split(',') },
+        {
+          ...data,
+          bedrooms: data.bedrooms || 0,
+          bathrooms: data.bathrooms || 0,
+          location: data.location.value,
+          imageIds: currentPropertyValues?.imageIds || [],
+          appliances: data?.appliances?.split(','),
+        },
         propertyId
       );
     } else {
-      addNewProperty({ ...data, appliances: data.appliances.split(',').map((appliance) => appliance.trim()) });
+      addNewProperty({
+        ...data,
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        location: data.location.value,
+        appliances: data.appliances.split(',').map((appliance) => appliance.trim()),
+      });
     }
   };
+
+  const options = [];
+  if (locations) {
+    options.push({ value: '', label: 'Select location' });
+    locations?.paginate.forEach((location) => {
+      options.push({
+        value: location.id,
+        label: `${location.district}, ${location.sector} - ${location.knownName}`,
+      });
+    });
+  }
 
   return (
     <form
@@ -118,21 +143,20 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
 
           {/* Property Location */}
           <VerticalFormRow label='Location' error={errors['location'] && errors['location'].message}>
-            <select
-              id='property_type'
-              {...register('location', { required: 'Location is required' })}
-              className='border rounded-md p-1.5'
-            >
-              {(isLoadingLocations && <option>Loading...</option>) || <option value=''>Select location</option>}
-
-              {locations?.paginate.map((location) => {
-                return (
-                  <option key={location.id} value={location.id}>
-                    {location.district}, {location.sector} - {location.knownName}
-                  </option>
-                );
-              })}
-            </select>
+            <Controller
+              name='location' // The name of the input field
+              control={control}
+              defaultValue={null} // Set default value if needed
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={options}
+                  styles={customStyles}
+                  onChange={(selectedOption) => field.onChange(selectedOption)} // Update the value in React Hook Form
+                  isClearable // Allow clearing the selection
+                />
+              )}
+            />
           </VerticalFormRow>
         </div>
 
@@ -178,7 +202,7 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
           </VerticalFormRow>
         </div>
 
-        <div className='flex justify-between gap-1'>
+        <div className='flex justify-between gap-4'>
           {/* Property Size */}
           <VerticalFormRow
             label='Property Size (sqft)'
@@ -305,6 +329,37 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
       </div>
     </form>
   );
+};
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    border: '1px solid #d1d5db', // Tailwind's gray-300
+    borderRadius: '0.375rem', // Tailwind's rounded-md
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)', // Tailwind's shadow-sm
+    backgroundColor: 'white', // Tailwind's bg-white
+    width: '100%', // Full width
+    opacity: state.isDisabled ? 0.4 : 1, // Disabled state
+    '&:hover': {
+      borderColor: state.isFocused ? '#b07c19' : '#d1d5db', // Change border color on hover
+    },
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: 'white',
+    borderRadius: '0.375rem', // Tailwind's rounded-md
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)', // Tailwind's shadow-sm
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#b07c19' : 'white', // Tailwind's blue-600 on hover
+    color: state.isFocused ? 'white' : 'black', // Text color change
+    padding: '0.5rem', // Add padding
+    cursor: 'pointer', // Change cursor to pointer
+    '&:active': {
+      backgroundColor: '#b07c19', // Tailwind's blue-500 for active state
+    },
+  }),
 };
 
 export default PropertyForm;

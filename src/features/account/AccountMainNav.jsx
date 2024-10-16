@@ -22,13 +22,7 @@ export default function AccountMainNav() {
         <BiCategoryAlt className='size-[1.5rem] group-hover:text-white transition-all duration-400' />{' '}
         <span className='text-base'>Categories</span>
       </NavLink>
-      <NavLink
-        to='appointments'
-        className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'
-      >
-        <FaRegClock className='size-[1.5rem] group-hover:text-white transition-all duration-400' />
-        <span className='text-base'>Appointments</span>
-      </NavLink>
+
       {/* <NavLink
         to='users'
         className='group px-2 py-1.5 rounded text-lg flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-400'

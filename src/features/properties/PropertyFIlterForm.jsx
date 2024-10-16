@@ -61,7 +61,9 @@ export default function PropertyFilterForm({ closeForm }) {
 
           <VerticalFormRow label='Property Type' error={errors['property_type'] && errors['property_type'].message}>
             <select id='property_type' {...register('property_type')} className='border rounded-md p-1.5'>
-              {(isLoadingCategories && <option>Loading...</option>) || <option value=''>Select property type</option>}
+              {(isLoadingCategories && <option value=''>Loading...</option>) || (
+                <option value=''>Select property type</option>
+              )}
 
               {categories?.paginate.map((category) => {
                 return (
@@ -132,7 +134,7 @@ export default function PropertyFilterForm({ closeForm }) {
             </div>
           </div>
           <div className='flex gap-3'>
-            <Button type='submit' size='sm' className='mt-4' variant='secondary'>
+            <Button type='submit' size='sm' className='mt-4' variant='secondary' loading={isLoadingCategories}>
               Apply Filters
             </Button>
             <Button type='reset' size='sm' className='mt-4' variant='tertiary' onClick={handleClearFilters}>

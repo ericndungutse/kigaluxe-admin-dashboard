@@ -80,7 +80,7 @@ export const uploadPropertyImageApi = async (propertyId, formData, token) => {
 
 export const filterProperty = async (query, page) => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/search?${query}&page=${page}&limit=2`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/search?${query}&page=${page}`);
 
     return response.data.data;
   } catch (error) {

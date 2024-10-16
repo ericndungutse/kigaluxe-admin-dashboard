@@ -74,8 +74,7 @@ export const uploadLocationImageApi = async (locationId, formData, token) => {
 export const searchLocation = async (query, page) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/place/search?location=${query}&page=${page}&limit=2`
-    );
+      `${import.meta.env.VITE_BACKEND_URL}/api/place/search?location=${query}&page=${page});
 
     return response.data.data;
   } catch (error) {
