@@ -45,7 +45,10 @@ export default function PropertiesDetails({ closeModal }) {
         {/* Price, Type, Size */}
         <div className='text-secondary flex flex-col gap-3'>
           <p className='items-center flex gap-1'>
-            <FaDollarSign className='mr-2 text-primary' /> {property.price}
+            {new Intl.NumberFormat(undefined, {
+              style: 'currency',
+              currency: 'RWF',
+            }).format(property.price)}
           </p>
           <p className='flex items-center'>
             <FaBuilding className='mr-2 text-primary' />
@@ -135,7 +138,12 @@ export default function PropertiesDetails({ closeModal }) {
         {property.YTUrl && (
           <p className='text-secondary'>
             <strong>Video Tour:</strong>{' '}
-            <a className='text-primary hover:underline' href={property.YTUrl} target='_blank' rel='noopener noreferrer'>
+            <a
+              className='text-primary hover:underline'
+              href={`https://www.youtube.com/watch?v=${property.YTUrl}`}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               Watch on YouTube
             </a>
           </p>

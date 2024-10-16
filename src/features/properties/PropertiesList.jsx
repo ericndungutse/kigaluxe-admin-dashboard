@@ -16,6 +16,7 @@ import { deletePropertyApi } from '../../services/properties.service';
 import PropertiesDetails from './PropertiesDetails';
 import PropertyFilterForm from './PropertyFIlterForm';
 import PropertyForm from './PropertyForm';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const fields = [
   {
@@ -77,6 +78,16 @@ export default function PropertiesList() {
 
   const { properties, isLoadingProperties, isError, error } = useFetchProperties();
 
+  const displayProperties = properties?.paginate.map((prop) => {
+    return {
+      ...prop,
+      price: new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: 'RWF',
+      }).format(prop.price),
+    };
+  });
+
   return (
     <div className='flex flex-col gap-3 items-start'>
       <div className='flex justify-end w-full'>
@@ -96,7 +107,7 @@ export default function PropertiesList() {
       {isFilterOpen && <PropertyFilterForm closeForm={() => setIsFilterOpen(false)} />}
 
       {isLoadingProperties ? (
-        <div>Loading</div>
+        <LoadingSpinner />
       ) : isError ? (
         <div>{error?.message}</div>
       ) : (
@@ -142,7 +153,7 @@ export default function PropertiesList() {
             </Modal>
           )}
 
-          <Table headers={fields} data={properties?.paginate} dropdownOptions='details,edit,update image,delete' />
+          <Table headers={fields} data={displayProperties} dropdownOptions='details,edit,update image,delete' />
           <div className='flex justify-between w-full'>
             <Button size='md' onClick={() => setIsOpen(true)} variant='secondary'>
               Add Property

@@ -9,6 +9,14 @@ export default {
         secondary: '#031B28',
         'secondary-light': '#2a3e4d', // Light version of the secondary color
       },
+      keyframes: {
+        rotate: {
+          to: { transform: 'rotate(1turn)' },
+        },
+      },
+      animation: {
+        rotate: 'rotate 1.5s infinite linear',
+      },
     },
   },
   plugins: [],

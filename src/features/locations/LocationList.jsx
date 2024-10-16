@@ -15,6 +15,7 @@ import ImageUploader from '../../components/ImageUploader';
 import { useUser } from '../../hooks/useUser';
 import Search from '../../components/Search'; // Import the Search component
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const fields = [
   { label: 'Image', key: 'url' },
@@ -65,7 +66,7 @@ export default function LocationsList() {
       </div>
 
       {isLoadingLocations ? (
-        <div>Loading...</div>
+        <LoadingSpinner />
       ) : loadingLocationsError ? (
         <div className='text-red-500 bg-red-200 text-center capitalize p-2 rounded'>
           {loadingLocationsError.message}

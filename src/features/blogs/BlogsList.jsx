@@ -13,6 +13,7 @@ import BlogForm from './BlogForm';
 import Pagination from '../../components/Pagination';
 import ImageUploader from '../../components/ImageUploader';
 import Search from '../../components/Search';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const fields = [
   {
@@ -65,7 +66,7 @@ export default function BlogsList() {
       </div>
 
       {isLoadingblogs ? (
-        <div>Loading...</div>
+        <LoadingSpinner />
       ) : loadingBlogsError ? (
         <div className='text-red-500 bg-red-200 text-center capitalize p-2 rounded'>{loadingBlogsError.message}</div>
       ) : (
