@@ -40,6 +40,12 @@ const fields = [
     label: 'Sold',
     key: 'isSold',
   },
+
+  {
+    label: 'Created on',
+    key: 'createdAt',
+  },
+
   {
     label: 'Action',
     key: 'action',
@@ -85,6 +91,11 @@ export default function PropertiesList() {
         style: 'currency',
         currency: 'RWF',
       }).format(prop.price),
+      createdAt: new Intl.DateTimeFormat('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }).format(new Date(prop.createdAt)),
     };
   });
 
