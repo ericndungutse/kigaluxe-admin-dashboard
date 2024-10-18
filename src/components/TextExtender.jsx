@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const TextExtender = ({ text, maxLength = 100 }) => {
+const TextExtender = ({ text, maxLength = 100, showExtenderBtn = true }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Toggle the expanded state
@@ -15,7 +15,7 @@ const TextExtender = ({ text, maxLength = 100 }) => {
     <div className='text-gray-700'>
       <p>
         {displayText}{' '}
-        {text.length > maxLength && (
+        {text.length > maxLength && showExtenderBtn && (
           <button className='text-blue-500 inline-block hover:underline focus:outline-none' onClick={toggleExpand}>
             {isExpanded ? 'Read Less' : 'Read More'}
           </button>

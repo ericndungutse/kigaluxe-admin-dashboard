@@ -14,8 +14,13 @@ import Pagination from '../../components/Pagination';
 import ImageUploader from '../../components/ImageUploader';
 import Search from '../../components/Search';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import TextExtender from '../../components/TextExtender';
 
 const fields = [
+  {
+    label: 'Image',
+    key: 'url',
+  },
   {
     label: 'Title',
     key: 'title',
@@ -23,6 +28,10 @@ const fields = [
   {
     label: 'Category',
     key: 'categoryId',
+  },
+  {
+    label: 'Created At',
+    key: 'createdAt',
   },
   {
     label: 'Action',
@@ -55,7 +64,13 @@ export default function BlogsList() {
     const category = categories?.paginate?.find((category) => category.id === blog.categoryId);
     return {
       ...blog,
+      createdAt: new Intl.DateTimeFormat('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }).format(new Date(blog.createdAt)),
       categoryId: category?.name,
+      title: <TextExtender text={blog.title} maxLength={30} showExtenderBtn={false} />,
     };
   });
 

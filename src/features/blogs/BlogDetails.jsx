@@ -52,11 +52,6 @@ export default function BlogDetails({ closeModal }) {
       {/* Blog Title */}
       <h2 className='text-3xl font-bold text-primary mb-6'>{blog.title}</h2>
 
-      {/* Blog Content with TextExtender */}
-      {/* <div className='mb-6'>
-        <TextExtender text={blog.content} maxLength={150} />
-      </div> */}
-
       <div className='mb-6' dangerouslySetInnerHTML={{ __html: blog.content }} />
 
       {/* Blog Details */}
