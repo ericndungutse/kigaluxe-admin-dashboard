@@ -144,18 +144,27 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
           {/* Property Location */}
           <VerticalFormRow label='Location' error={errors['location'] && errors['location'].message}>
             <Controller
-              name='location' // The name of the input field
+              name='location'
               control={control}
-              defaultValue={null} // Set default value if needed
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  options={options}
-                  styles={customStyles}
-                  onChange={(selectedOption) => field.onChange(selectedOption)} // Update the value in React Hook Form
-                  isClearable // Allow clearing the selection
-                />
-              )}
+              defaultValue={currentPropertyValues?.locations || ''} // Default value
+              render={({ field }) => {
+                return (
+                  <Select
+                    {...field}
+                    options={options}
+                    styles={customStyles}
+                    defaultInputValue={
+                      isEdit
+                        ? `${currentPropertyValues?.locations?.knownName} - ${currentPropertyValues?.locations?.district}`
+                        : ''
+                    }
+                    placeholder='Select location'
+                    isDisabled={isPending || isUpdating || isLoadingLocations}
+                    onChange={(selectedOption) => field.onChange(selectedOption)}
+                    isClearable
+                  />
+                );
+              }}
             />
           </VerticalFormRow>
         </div>
@@ -183,13 +192,21 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
             />
           </VerticalFormRow>
           {/* Property Type */}
-          <VerticalFormRow label='Property Type' error={errors['property_type'] && errors['property_type'].message}>
+          <VerticalFormRow label='Property Type' error={errors['property-type'] && errors['property-type'].message}>
             <select
-              id='property_type'
-              {...register('property_type', { required: 'Property type is required' })}
+              id='property-type'
+              {...register('property-type', { required: 'Property type is required' })}
               className='border rounded-md p-1.5'
             >
-              {(isLoadingCategories && <option>Loading...</option>) || <option value=''>Select property type</option>}
+              {isLoadingCategories ? (
+                <option value=''>Loading...</option>
+              ) : isEdit ? (
+                <option value={currentPropertyValues?.['property-type']?.id}>
+                  {currentPropertyValues?.['property-type']?.name}
+                </option>
+              ) : (
+                <option value=''>Select category</option>
+              )}
 
               {categories?.paginate.map((category) => {
                 return (
@@ -339,7 +356,7 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
 
         {/* Submit button */}
         <VerticalFormRow>
-          <Button type='submit' loading={isPending || isUpdating}>
+          <Button type='submit' loading={isPending || isUpdating || isLoadingCategories || isLoadingLocations}>
             {isEdit ? 'Update' : 'Add'} Property
           </Button>
         </VerticalFormRow>

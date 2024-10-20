@@ -21,7 +21,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 const fields = [
   {
     label: 'Image',
-    key: 'imageUrl',
+    key: 'url',
   },
   {
     label: 'Title',

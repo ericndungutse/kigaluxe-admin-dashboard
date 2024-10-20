@@ -75,7 +75,7 @@ const BlogForm = ({ closeModal, blogId }) => {
           id='category'
           {...register('categoryId', { required: 'Category is required' })}
           className='border rounded-md p-1.5'
-          defaultChecked={currentBlog?.categoryId}
+          // defaultChecked={currentBlog?.categoryId}
         >
           {isLoadingCategories ? (
             <option>Loading...</option>
