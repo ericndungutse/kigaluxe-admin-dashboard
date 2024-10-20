@@ -33,7 +33,7 @@ const fields = [
   },
   {
     label: 'Property Type',
-    key: 'property_type',
+    key: 'property-type',
   },
 
   {
@@ -87,6 +87,7 @@ export default function PropertiesList() {
   const displayProperties = properties?.paginate.map((prop) => {
     return {
       ...prop,
+
       price: new Intl.NumberFormat(undefined, {
         style: 'currency',
         currency: 'RWF',
@@ -96,6 +97,7 @@ export default function PropertiesList() {
         month: 'short',
         year: 'numeric',
       }).format(new Date(prop.createdAt)),
+      'property-type': prop?.['property-type'].name,
     };
   });
 
