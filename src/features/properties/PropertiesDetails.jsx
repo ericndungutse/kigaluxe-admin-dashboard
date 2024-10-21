@@ -29,7 +29,7 @@ export default function PropertiesDetails({ closeModal }) {
       {/* Property Images */}
       <div className='mb-6'>
         <div className='grid grid-cols-2 gap-6 justify-between'>
-          {property.imageUrl.map((image, index) => {
+          {property.url.map((image, index) => {
             return (
               <img key={index} className='w-full h-auto rounded-lg' src={image} alt={`Property Image ${index + 1}`} />
             );
@@ -72,7 +72,7 @@ export default function PropertiesDetails({ closeModal }) {
           </p>
           <p className='flex items-center'>
             <FaMapMarkerAlt className='mr-2 text-primary' />
-            <div className='flex items-center'>{property.location}</div>
+            <span className='flex items-center'>{`${property?.locations?.knownName} - ${property?.locations?.district}, ${property?.locations?.province}`}</span>
           </p>
         </div>
 

@@ -192,16 +192,16 @@ const PropertyForm = ({ closeModal, propertyId, title = 'Create New Property' })
             />
           </VerticalFormRow>
           {/* Property Type */}
-          <VerticalFormRow label='Property Type' error={errors['property-type'] && errors['property-type'].message}>
+          <VerticalFormRow label='Property Type' error={errors['property_type'] && errors['property_type'].message}>
             <select
-              id='property-type'
-              {...register('property-type', { required: 'Property type is required' })}
+              id='property_type'
+              {...register('property_type', { required: 'Property type is required' })}
               className='border rounded-md p-1.5'
             >
               {isLoadingCategories ? (
                 <option value=''>Loading...</option>
               ) : isEdit ? (
-                <option value={currentPropertyValues?.['property-type']?.id}>
+                <option value={currentPropertyValues?.['property_type']}>
                   {currentPropertyValues?.['property-type']?.name}
                 </option>
               ) : (
